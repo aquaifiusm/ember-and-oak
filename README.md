@@ -37,8 +37,9 @@ ember-and-oak/
 ├── dist/
 │   ├── assets/          # Optimized production WebP images
 │   ├── _headers         # Cloudflare Pages headers
-│   ├── app.js           # Menu, cart, navigation, gallery, and dialog interactions
-│   ├── index.html       # Semantic page content and SEO metadata
+│   ├── content.js       # All editable bilingual restaurant content
+│   ├── app.js           # Rendering, cart, navigation, gallery, and dialog interactions
+│   ├── index.html       # Semantic layout, fallbacks, and SEO metadata
 │   ├── robots.txt
 │   └── styles.css       # Design system and responsive layouts
 ├── source-assets/       # Original high-resolution generated images
@@ -59,16 +60,32 @@ ember-and-oak/
 
 For direct upload, use Cloudflare Pages' drag-and-drop option and upload the contents of `dist/`.
 
+## Edit the website content
+
+All normal content changes are made in `dist/content.js`. It contains clearly grouped sections for:
+
+- Restaurant name, contact details, links, opening hours, and credits
+- Menu items, categories, descriptions, prices, and optional images
+- Branch names, addresses, hours, phone numbers, and directions
+- Gallery images, captions, and alternative text
+- Review names, initials, ratings, roles, and quotes
+- Payment method names and helper text
+- English and Egyptian Arabic interface copy
+
+Each bilingual value uses an `{ en: "...", ar: "..." }` pair. Keep the surrounding punctuation intact when editing. Adding or removing a complete object from `menuItems`, `branches`, or `reviews` automatically updates the displayed site.
+
+After editing, commit the change to the `main` branch. Cloudflare Pages will deploy it automatically.
+
 ## Customize before client launch
 
 Replace the following content before launch:
 
-- Restaurant name, logo, description, and concept story
+- Restaurant name, logo, description, and concept story in `dist/content.js`
 - Phone, WhatsApp, email, Instagram, and social links
 - Branch names, addresses, hours, and Google Maps links
 - Menu categories, dishes, descriptions, and prices
 - Guest quotes and rating
 - Current food imagery with the client's licensed photography
-- Structured-data contact and address fields in `dist/index.html`
+- Structured-data contact and address fields in `dist/index.html` when final business details are known
 
 If the client needs reservations, delivery, payments, or a contact form that submits data, connect the UI to an approved backend service before launch.

@@ -5,7 +5,7 @@
   const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const arabicText = {
+  const defaultArabicText = {
     "Skip to content": "روح للمحتوى",
     "Ember & Oak · Cairo · Open daily from 12 PM to midnight": "Ember & Oak · القاهرة · فاتحين يوميًا من ١٢ الظهر لحد نص الليل",
     "Fire kitchen · Cairo": "مطبخ النار · القاهرة",
@@ -68,12 +68,12 @@
     "Your order": "طلبك", "Your bag": "طلبك", "Order total": "إجمالي الطلب", "Continue to checkout": "كمّل للدفع", "Choose your preferred payment method on the next step.": "اختار طريقة الدفع المناسبة في الخطوة الجاية."
   };
 
-  const attributeArabic = {
+  const defaultAttributeArabic = {
     "Ember and Oak home": "الصفحة الرئيسية لمطعم Ember & Oak", "Primary navigation": "القائمة الرئيسية", "Mobile navigation": "قائمة الموبايل", "Open order": "افتح الطلب", "Open navigation": "افتح القائمة", "Close navigation": "اقفل القائمة", "Restaurant information": "معلومات المطعم", "Filter menu": "فلتر المنيو", "Close order": "اقفل الطلب", "Close checkout": "اقفل الدفع", "Gallery image": "صورة من المطعم", "Close gallery image": "اقفل الصورة", "5 out of 5 stars": "٥ نجوم من ٥", "4 out of 5 stars": "٤ نجوم من ٥",
     "A candlelit table with a generous mixed-grill feast": "سفرة مشويات مشكلة في إضاءة دافية", "Herb-charred half chicken with roasted lemon": "نص فرخة مشوية بالأعشاب والليمون", "Sliced charcoal-grilled striploin with roasted shallots": "شرائح ستربلوين مشوية على الفحم", "Chargrilled chicken plated with herbs and roasted lemon": "فراخ مشوية مع أعشاب وليمون", "Close detail of a charcoal-grilled beef dish": "تفاصيل طبق لحمة مشوية على الفحم", "Mixed grill feast in a candlelit dining room": "سفرة مشويات مشكلة في قاعة بإضاءة دافية", "Herb-marinated chicken with charred lemon": "فراخ متبلة بالأعشاب مع ليمون مشوي", "Sliced charcoal-grilled beef": "شرائح لحمة مشوية على الفحم", "A table set for a mixed grill dinner": "سفرة عشا ومشويات مشكلة", "Restaurant-style beef plate in warm light": "طبق لحمة في إضاءة دافية"
   };
 
-  const ui = {
+  const defaultUi = {
     ar: {
       switchLabel: "حوّل الموقع للإنجليزي", switchText: "EN", emptyCart: "طلبك فاضي.<br>اختار حاجة حلوة من المنيو.", remove: "شيل", added: (name) => `اتضاف ${name} لطلبك`, choosePayment: "اختار طريقة الدفع", checkout: "الدفع", paymentIntro: "اختار طريقة الدفع الأنسب ليك.", confirmOrder: "أكد الطلب", orderReady: "طلبك جاهز للتأكيد", orderReadyBody: (payment) => `اخترت الدفع عن طريق <strong>${payment}</strong>.<br>تقدر تكمل الطلب بالتواصل مع المطعم.`, done: "تم",
       actions: { whatsapp: "لينك واتساب هيتضاف هنا قريب.", phone: "رقم الاتصال هيتربط هنا قريب.", instagram: "لينك إنستجرام هيتضاف هنا قريب." }
@@ -84,7 +84,102 @@
     }
   };
 
-  const paymentNames = { "Vodafone Cash": "فودافون كاش", "Cash on delivery": "الدفع عند الاستلام", "PayPal": "باي بال", "Credit card": "كارت بنكي" };
+  const defaultPaymentNames = { "Vodafone Cash": "فودافون كاش", "Cash on delivery": "الدفع عند الاستلام", "PayPal": "باي بال", "Credit card": "كارت بنكي" };
+  const content = window.EMBER_CONTENT || {};
+  const arabicText = content.translations?.text || defaultArabicText;
+  const attributeArabic = content.translations?.attributes || defaultAttributeArabic;
+  const ui = content.translations?.ui || defaultUi;
+  const paymentNames = content.paymentMethods
+    ? Object.fromEntries(content.paymentMethods.map((method) => [method.id, method.name.ar]))
+    : defaultPaymentNames;
+
+  function escapeHTML(value) {
+    return String(value).replace(/[&<>"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[character]);
+  }
+
+  function registerPair(pair) {
+    if (pair?.en && pair?.ar) arabicText[pair.en] = pair.ar;
+  }
+
+  function renderManagedContent() {
+    if (content.menuItems?.length) {
+      content.menuItems.forEach((item) => {
+        registerPair(item.categoryText); registerPair(item.name); registerPair(item.description); registerPair(item.imageAlt);
+        if (item.imageAlt) attributeArabic[item.imageAlt.en] = item.imageAlt.ar;
+      });
+      $("#menuGrid").innerHTML = content.menuItems.map((item) => {
+        const image = item.image ? `<img src="${escapeHTML(item.image)}" alt="${escapeHTML(item.imageAlt?.en || item.name.en)}" width="1200" height="900" loading="lazy">` : "";
+        return `<article class="menu-card${item.image ? " menu-card-image" : ""} reveal" data-category="${escapeHTML(item.category)}">${image}<div class="menu-card-body"><span class="item-category">${escapeHTML(item.categoryText.en)}</span><div class="item-title"><h3>${escapeHTML(item.name.en)}</h3><strong>EGP ${Number(item.price)}</strong></div><p>${escapeHTML(item.description.en)}</p><button class="add-item" type="button" data-name="${escapeHTML(item.name.en)}" data-price="${Number(item.price)}" aria-label="Add ${escapeHTML(item.name.en)} to order">Add to order <span>+</span></button></div></article>`;
+      }).join("");
+      const countEnglish = `${content.menuItems.length} dishes`;
+      const countArabic = `${content.menuItems.length.toLocaleString("ar-EG")} طبق`;
+      $(".menu-note").textContent = countEnglish;
+      arabicText[countEnglish] = countArabic;
+    }
+
+    if (content.branches?.length) {
+      content.branches.forEach((branch) => {
+        registerPair(branch.name); registerPair(branch.tag); registerPair(branch.hours);
+        branch.address.en.forEach((line, index) => { arabicText[line] = branch.address.ar[index]; });
+      });
+      $(".branches-grid").innerHTML = content.branches.map((branch, index) => {
+        const whatsappAttribute = branch.whatsappUrl === "#contact" ? ' data-placeholder-action="whatsapp"' : "";
+        return `<article class="branch-card reveal"><div class="branch-number">${String(index + 1).padStart(2, "0")}</div><div><span class="demo-tag">${escapeHTML(branch.tag.en)}</span><h3>${escapeHTML(branch.name.en)}</h3><p>${branch.address.en.map(escapeHTML).join("<br>")}</p></div><dl><div><dt>Hours</dt><dd>${escapeHTML(branch.hours.en)}</dd></div><div><dt>Phone</dt><dd>${escapeHTML(branch.phone)}</dd></div></dl><div class="branch-actions"><a class="button button-light" href="${escapeHTML(branch.mapsUrl)}" target="_blank" rel="noopener">Get directions</a><a class="icon-link" href="${escapeHTML(branch.whatsappUrl)}"${whatsappAttribute}>WhatsApp ↗</a></div></article>`;
+      }).join("");
+    }
+
+    if (content.galleryItems?.length) {
+      content.galleryItems.forEach((item) => {
+        registerPair(item.caption); registerPair(item.alt); attributeArabic[item.alt.en] = item.alt.ar;
+      });
+      $(".gallery-grid").innerHTML = content.galleryItems.map((item) => `<button class="gallery-item${item.layout ? ` ${escapeHTML(item.layout)}` : ""} reveal" type="button" data-image="${escapeHTML(item.image)}" data-alt="${escapeHTML(item.alt.en)}"><img src="${escapeHTML(item.image)}" alt="${escapeHTML(item.alt.en)}" width="1600" height="900" loading="lazy"><span>${escapeHTML(item.caption.en)}</span></button>`).join("");
+    }
+
+    if (content.reviews?.length) {
+      content.reviews.forEach((review) => {
+        registerPair(review.name); registerPair(review.role);
+        arabicText[`“${review.quote.en}”`] = `«${review.quote.ar}»`;
+        attributeArabic[`${review.stars} out of 5 stars`] = `${review.stars.toLocaleString("ar-EG")} نجوم من ٥`;
+      });
+      $(".reviews-grid").innerHTML = content.reviews.map((review) => {
+        const stars = "★".repeat(review.stars) + "☆".repeat(5 - review.stars);
+        return `<article class="review-card reveal"><span class="demo-tag">Guest review</span><div class="stars" aria-label="${review.stars} out of 5 stars">${stars}</div><blockquote>“${escapeHTML(review.quote.en)}”</blockquote><footer><span class="avatar" aria-hidden="true">${escapeHTML(review.initials)}</span><div><strong>${escapeHTML(review.name.en)}</strong><small>${escapeHTML(review.role.en)}</small></div></footer></article>`;
+      }).join("");
+    }
+
+    if (content.restaurant) {
+      const restaurant = content.restaurant;
+      registerPair(restaurant.address); registerPair(restaurant.hours); registerPair(restaurant.credit);
+      $$(".brand strong").forEach((element) => { element.textContent = restaurant.name; });
+      const contactLinks = $$(".contact-card > a");
+      if (contactLinks[0]) { contactLinks[0].href = restaurant.phone.startsWith("+") ? `tel:${restaurant.phone.replace(/\s/g, "")}` : restaurant.phone; $("strong", contactLinks[0]).textContent = restaurant.phone; contactLinks[0].removeAttribute("data-placeholder-action"); }
+      if (contactLinks[1]) { contactLinks[1].href = `mailto:${restaurant.email}`; $("strong", contactLinks[1]).textContent = restaurant.email; }
+      if (contactLinks[2]) { contactLinks[2].href = restaurant.mapsUrl; $("strong", contactLinks[2]).textContent = restaurant.address.en; }
+      const hours = $(".contact-card > div strong"); if (hours) hours.textContent = restaurant.hours.en;
+      if (contactLinks[3]) { contactLinks[3].href = restaurant.instagramUrl; $("strong", contactLinks[3]).textContent = restaurant.instagram; if (restaurant.instagramUrl !== "#") contactLinks[3].removeAttribute("data-placeholder-action"); }
+      if (contactLinks[4]) contactLinks[4].href = restaurant.mapsUrl;
+      const emailButtons = $$('a[href^="mailto:"]'); emailButtons.forEach((link) => { link.href = `mailto:${restaurant.email}`; });
+      const orderButton = $('.contact-actions [data-placeholder-action="whatsapp"]'); if (orderButton && restaurant.whatsappUrl !== "#") { orderButton.href = restaurant.whatsappUrl; orderButton.removeAttribute("data-placeholder-action"); }
+      const footerVisit = $(".footer-grid > div:nth-child(3)");
+      if (footerVisit) {
+        const paragraphs = $$("p", footerVisit);
+        if (paragraphs[0]) paragraphs[0].innerHTML = restaurant.footerAddress.en;
+        if (paragraphs[1]) paragraphs[1].textContent = restaurant.hours.en;
+        const enLines = restaurant.footerAddress.en.split("<br>"); const arLines = restaurant.footerAddress.ar.split("<br>");
+        enLines.forEach((line, index) => { arabicText[line] = arLines[index]; });
+      }
+      const credit = $(".footer-bottom > span:last-child"); if (credit) credit.textContent = restaurant.credit.en;
+      const footerConnect = $(".footer-grid > div:nth-child(4)");
+      if (footerConnect) {
+        const links = $$("a", footerConnect);
+        if (links[0]) links[0].href = `mailto:${restaurant.email}`;
+        if (links[1]) { links[1].href = restaurant.instagramUrl; if (restaurant.instagramUrl !== "#") links[1].removeAttribute("data-placeholder-action"); }
+        if (links[2]) { links[2].href = restaurant.whatsappUrl; if (restaurant.whatsappUrl !== "#") links[2].removeAttribute("data-placeholder-action"); }
+      }
+    }
+  }
+
+  renderManagedContent();
   const header = $("#siteHeader");
   const progress = $("#scrollProgress");
   const menuToggle = $("#menuToggle");
@@ -99,7 +194,7 @@
   const cart = [];
   const textRecords = [];
   const attributeRecords = [];
-  let currentLanguage = "ar";
+  let currentLanguage = content.defaultLanguage === "en" ? "en" : "ar";
   let lastFocused = null;
   let toastTimer;
   let checkoutPayment = null;
@@ -178,13 +273,13 @@
   function renderCheckoutForm() {
     checkoutPayment = null;
     const isArabic = currentLanguage === "ar";
-    const options = [
-      ["Vodafone Cash", isArabic ? "تحويل فوري بالمحفظة" : "Instant wallet transfer"],
-      ["Cash on delivery", isArabic ? "ادفع لما الطلب يوصل" : "Pay when your order arrives"],
-      ["PayPal", isArabic ? "دفع أونلاين بسرعة" : "Fast online checkout"],
-      ["Credit card", isArabic ? "فيزا أو ماستركارد" : "Visa or Mastercard"]
+    const methods = content.paymentMethods || [
+      { id: "Vodafone Cash", name: { en: "Vodafone Cash", ar: "فودافون كاش" }, helper: { en: "Instant wallet transfer", ar: "تحويل فوري بالمحفظة" } },
+      { id: "Cash on delivery", name: { en: "Cash on delivery", ar: "الدفع عند الاستلام" }, helper: { en: "Pay when your order arrives", ar: "ادفع لما الطلب يوصل" } },
+      { id: "PayPal", name: { en: "PayPal", ar: "باي بال" }, helper: { en: "Fast online checkout", ar: "دفع أونلاين بسرعة" } },
+      { id: "Credit card", name: { en: "Credit card", ar: "كارت بنكي" }, helper: { en: "Visa or Mastercard", ar: "فيزا أو ماستركارد" } }
     ];
-    checkoutContent.innerHTML = `<div class="dialog-header"><div><span class="kicker">${ui[currentLanguage].checkout}</span><h2 id="checkoutTitle">${ui[currentLanguage].choosePayment}</h2></div><button class="close-button dark" id="checkoutClose" type="button" aria-label="${isArabic ? "اقفل الدفع" : "Close checkout"}">×</button></div><p>${ui[currentLanguage].paymentIntro}</p><div class="payment-options">${options.map(([name, helper], index) => `<button class="payment-option${index === 0 ? " active" : ""}" type="button" data-payment="${name}"><strong>${isArabic ? paymentNames[name] : name}</strong><small>${helper}</small></button>`).join("")}</div><button class="button button-copper dialog-submit" id="placeOrder" type="button">${ui[currentLanguage].confirmOrder}</button>`;
+    checkoutContent.innerHTML = `<div class="dialog-header"><div><span class="kicker">${ui[currentLanguage].checkout}</span><h2 id="checkoutTitle">${ui[currentLanguage].choosePayment}</h2></div><button class="close-button dark" id="checkoutClose" type="button" aria-label="${isArabic ? "اقفل الدفع" : "Close checkout"}">×</button></div><p>${ui[currentLanguage].paymentIntro}</p><div class="payment-options">${methods.map((method, index) => `<button class="payment-option${index === 0 ? " active" : ""}" type="button" data-payment="${escapeHTML(method.id)}"><strong>${escapeHTML(method.name[currentLanguage])}</strong><small>${escapeHTML(method.helper[currentLanguage])}</small></button>`).join("")}</div><button class="button button-copper dialog-submit" id="placeOrder" type="button">${ui[currentLanguage].confirmOrder}</button>`;
     $("#checkoutClose").addEventListener("click", () => closeLayers());
     $$(".payment-option").forEach((option) => option.addEventListener("click", () => { $$(".payment-option").forEach((item) => item.classList.remove("active")); option.classList.add("active"); }));
     $("#placeOrder").addEventListener("click", () => renderCheckoutSuccess($(".payment-option.active").dataset.payment));
@@ -214,8 +309,8 @@
 
   $("#year").textContent = new Date().getFullYear();
   captureTranslations();
-  let storedLanguage = "ar";
-  try { storedLanguage = localStorage.getItem("ember-language") || "ar"; } catch (_) { /* Arabic remains the default. */ }
+  let storedLanguage = content.defaultLanguage === "en" ? "en" : "ar";
+  try { storedLanguage = localStorage.getItem("ember-language") || storedLanguage; } catch (_) { /* Configured language remains the default. */ }
   applyLanguage(storedLanguage === "en" ? "en" : "ar", false);
   languageToggle.addEventListener("click", () => applyLanguage(currentLanguage === "ar" ? "en" : "ar"));
 
