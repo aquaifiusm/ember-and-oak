@@ -1,2 +1,12 @@
 .sites-runtime/
 *.tar.gz
+.env
+.env.*
+!.env.example
+.dev.vars
+.wrangler/
+node_modules/
+.cache/
+*.log
+.DS_Store
+Thumbs.db
