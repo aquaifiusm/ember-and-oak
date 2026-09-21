@@ -1,19 +1,19 @@
 <!doctype html>
-<html lang="en">
+<html lang="ar" dir="rtl" class="i18n-pending">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Ember & Oak is a premium charcoal-kitchen restaurant portfolio demo featuring sample menus, branches, reviews, and contact details.">
+  <meta name="description" content="Ember & Oak مطعم مشويات عصري في القاهرة، بطبخ على الفحم وقعدة دافية وأطباق معمولة للمشاركة.">
   <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#0d0d0b">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Ember & Oak — Premium Restaurant Demo">
-  <meta property="og:description" content="A polished restaurant portfolio demo with a sample menu, branches, gallery, and contact experience.">
-  <meta property="og:site_name" content="Ember & Oak Demo">
+  <meta property="og:title" content="Ember & Oak — مطعم المشويات على الفحم">
+  <meta property="og:description" content="طبخ على الفحم، أطباق كريمة وليالي حلوة حوالين السفرة.">
+  <meta property="og:site_name" content="Ember & Oak">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Ember & Oak — Premium Restaurant Demo">
-  <meta name="twitter:description" content="A premium restaurant website concept built as a client-ready portfolio demo.">
-  <title>Ember & Oak — Premium Fire Kitchen Demo</title>
+  <meta name="twitter:title" content="Ember & Oak — مطعم المشويات على الفحم">
+  <meta name="twitter:description" content="طبخ على الفحم، أطباق كريمة وليالي حلوة حوالين السفرة.">
+  <title>Ember & Oak — مطعم المشويات على الفحم</title>
   <link rel="preload" as="image" href="assets/hero.webp" type="image/webp" fetchpriority="high">
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230d0d0b'/%3E%3Cpath d='M32 9c4 10-4 13 1 21 3-5 8-7 10-14 7 8 10 17 6 26-3 8-10 13-18 13-10 0-18-8-18-18 0-8 5-15 13-22-1 9 2 12 6 14-3-8 4-12 0-20Z' fill='%23d48a4a'/%3E%3Cpath d='M32 32c7 6 7 15 0 18-7-3-7-12 0-18Z' fill='%23f4d6a8'/%3E%3C/svg%3E">
@@ -21,15 +21,15 @@
   {
     "@context": "https://schema.org",
     "@type": "Restaurant",
-    "name": "Ember & Oak (Portfolio Demo)",
-    "description": "A fictional charcoal-kitchen restaurant created as a portfolio demonstration.",
+    "name": "Ember & Oak",
+    "description": "مطعم مشويات عصري في القاهرة بطبخ على الفحم وأطباق معمولة للمشاركة.",
     "servesCuisine": ["Egyptian-inspired", "Grill", "Contemporary"],
-    "priceRange": "EGP — demo pricing",
+    "priceRange": "EGP",
     "telephone": "+20 10 0000 0000",
-    "email": "hello@emberandoak-demo.example",
+    "email": "hello@emberandoak.example",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "12 Al Gezira Street (Demo Address)",
+      "streetAddress": "12 Al Gezira Street",
       "addressLocality": "Cairo",
       "addressCountry": "EG"
     },
@@ -48,18 +48,19 @@
   <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
   <header class="site-header" id="siteHeader">
-    <div class="demo-bar">Portfolio demo · All names, details, prices, addresses, ratings, and testimonials are sample content</div>
+    <div class="demo-bar">Ember & Oak · Cairo · Open daily from 12 PM to midnight</div>
     <div class="shell nav-wrap">
       <a class="brand" href="#home" aria-label="Ember and Oak home">
         <span class="brand-mark" aria-hidden="true">E</span>
-        <span><strong>Ember & Oak</strong><small>Fire kitchen · demo</small></span>
+        <span><strong>Ember & Oak</strong><small>Fire kitchen · Cairo</small></span>
       </a>
       <nav class="desktop-nav" aria-label="Primary navigation">
         <a href="#home">Home</a><a href="#menu">Menu</a><a href="#about">About</a><a href="#branches">Branches</a><a href="#reviews">Reviews</a><a href="#gallery">Gallery</a><a href="#contact">Contact</a>
       </nav>
       <div class="nav-actions">
         <a class="nav-order" href="#menu">Order</a>
-        <button class="cart-trigger" id="cartOpen" type="button" aria-label="Open demo order"><span>Bag</span><b id="bagCount">0</b></button>
+        <button class="language-toggle" id="languageToggle" type="button" aria-label="Switch to English"><span aria-hidden="true">EN</span></button>
+        <button class="cart-trigger" id="cartOpen" type="button" aria-label="Open order"><span>Bag</span><b id="bagCount">0</b></button>
         <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open navigation"><span></span><span></span></button>
       </div>
     </div>
@@ -75,18 +76,18 @@
       <div class="hero-scrim" aria-hidden="true"></div>
       <div class="shell hero-layout">
         <div class="hero-copy">
-          <p class="kicker">Contemporary Egyptian fire kitchen · portfolio demo</p>
+          <p class="kicker">Contemporary Egyptian fire kitchen</p>
           <h1 id="heroTitle">Where fire<br>finds <em>flavour.</em></h1>
           <p class="hero-lead">A cinematic restaurant concept shaped around glowing charcoal, generous plates, and memorable nights around the table.</p>
           <div class="hero-actions">
             <a class="button button-copper" href="#menu">View the menu <span aria-hidden="true">↗</span></a>
             <a class="button button-ghost" href="#contact">Book / Contact us</a>
           </div>
-          <p class="hero-disclaimer">Concept restaurant with sample content—ready to customize for a real client.</p>
+          <p class="hero-disclaimer">Gather around the fire for generous plates and good company.</p>
         </div>
-        <aside class="hero-card" aria-label="Demo restaurant information">
+        <aside class="hero-card" aria-label="Restaurant information">
           <div><span>Tonight</span><strong>Open until midnight</strong></div>
-          <div><span>Demo location</span><strong>Zamalek, Cairo</strong></div>
+          <div><span>Location</span><strong>Zamalek, Cairo</strong></div>
           <div class="hero-card-actions"><a href="#branches">Get directions</a><a href="#contact">WhatsApp</a></div>
         </aside>
       </div>
@@ -98,11 +99,11 @@
     <section class="section menu-section" id="menu" aria-labelledby="menuTitle">
       <div class="shell">
         <div class="section-heading reveal">
-          <div><p class="kicker">Demo menu · priced in EGP</p><h2 id="menuTitle">Built for every<br><em>craving.</em></h2></div>
-          <p>Sample dishes demonstrate how a real restaurant menu can be presented. Every price and description below is fictional and easy to replace.</p>
+          <div><p class="kicker">Our menu · priced in EGP</p><h2 id="menuTitle">Built for every<br><em>craving.</em></h2></div>
+          <p>From fire-roasted starters to charcoal-grilled mains, every plate is made for sharing around the table.</p>
         </div>
         <div class="menu-toolbar reveal">
-          <div class="menu-filters" role="group" aria-label="Filter demo menu">
+          <div class="menu-filters" role="group" aria-label="Filter menu">
             <button class="filter active" type="button" data-filter="all" aria-pressed="true">All</button>
             <button class="filter" type="button" data-filter="appetizers" aria-pressed="false">Appetizers</button>
             <button class="filter" type="button" data-filter="mains" aria-pressed="false">Main courses</button>
@@ -111,33 +112,33 @@
             <button class="filter" type="button" data-filter="desserts" aria-pressed="false">Desserts</button>
             <button class="filter" type="button" data-filter="drinks" aria-pressed="false">Drinks</button>
           </div>
-          <span class="menu-note">18 sample items</span>
+          <span class="menu-note">18 dishes</span>
         </div>
         <div class="menu-grid" id="menuGrid">
           <article class="menu-card menu-card-image reveal" data-category="mains">
             <img src="assets/chicken.webp" alt="Herb-charred half chicken with roasted lemon" width="1200" height="900" loading="lazy">
-            <div class="menu-card-body"><span class="item-category">Main courses</span><div class="item-title"><h3>Ember Half Chicken</h3><strong>EGP 285</strong></div><p>24-hour herb marinade, burnt lemon, toum, and fire-roasted jus.</p><button class="add-item" type="button" data-name="Ember Half Chicken" data-price="285" aria-label="Add Ember Half Chicken to demo order">Add to order <span>+</span></button></div>
+            <div class="menu-card-body"><span class="item-category">Main courses</span><div class="item-title"><h3>Ember Half Chicken</h3><strong>EGP 285</strong></div><p>24-hour herb marinade, burnt lemon, toum, and fire-roasted jus.</p><button class="add-item" type="button" data-name="Ember Half Chicken" data-price="285" aria-label="Add Ember Half Chicken to order">Add to order <span>+</span></button></div>
           </article>
           <article class="menu-card menu-card-image reveal" data-category="mains">
             <img src="assets/beef.webp" alt="Sliced charcoal-grilled striploin with roasted shallots" width="1200" height="900" loading="lazy">
-            <div class="menu-card-body"><span class="item-category">Main courses</span><div class="item-title"><h3>Coal-Kissed Striploin</h3><strong>EGP 495</strong></div><p>250g grain-fed beef, pepper jus, roasted shallots, and garden herbs.</p><button class="add-item" type="button" data-name="Coal-Kissed Striploin" data-price="495" aria-label="Add Coal-Kissed Striploin to demo order">Add to order <span>+</span></button></div>
+            <div class="menu-card-body"><span class="item-category">Main courses</span><div class="item-title"><h3>Coal-Kissed Striploin</h3><strong>EGP 495</strong></div><p>250g grain-fed beef, pepper jus, roasted shallots, and garden herbs.</p><button class="add-item" type="button" data-name="Coal-Kissed Striploin" data-price="495" aria-label="Add Coal-Kissed Striploin to order">Add to order <span>+</span></button></div>
           </article>
-          <article class="menu-card reveal" data-category="appetizers"><div class="menu-card-body"><span class="item-category">Appetizers</span><div class="item-title"><h3>Fire-Roasted Mezze</h3><strong>EGP 165</strong></div><p>Smoked aubergine, muhammara, labneh, olives, and house flatbread.</p><button class="add-item" type="button" data-name="Fire-Roasted Mezze" data-price="165" aria-label="Add Fire-Roasted Mezze to demo order">Add to order <span>+</span></button></div></article>
-          <article class="menu-card reveal" data-category="appetizers"><div class="menu-card-body"><span class="item-category">Appetizers</span><div class="item-title"><h3>Charred Halloumi</h3><strong>EGP 175</strong></div><p>Fig glaze, toasted sesame, mint, and grilled sourdough.</p><button class="add-item" type="button" data-name="Charred Halloumi" data-price="175" aria-label="Add Charred Halloumi to demo order">Add to order <span>+</span></button></div></article>
-          <article class="menu-card reveal" data-category="appetizers"><div class="menu-card-body"><span class="item-category">Appetizers</span><div class="item-title"><h3>Crispy Aubergine</h3><strong>EGP 145</strong></div><p>Date molasses, tahini, spring onion, and warm Egyptian spice.</p><button class="add-item" type="button" data-name="Crispy Aubergine" data-price="145" aria-label="Add Crispy Aubergine to demo order">Add to order <span>+</span></button></div></article>
-          <article class="menu-card reveal" data-category="mains"><div class="menu-card-body"><span class="item-category">Main courses</span><div class="item-title"><h3>Smoked Kofta Plate</h3><strong>EGP 255</strong></div><p>Spiced beef kofta, charred tomato, tahini, and toasted pine nuts.</p><button class="add-item" type="button" data-name="Smoked Kofta Plate" data-price="255" aria-label="Add Smoked Kofta Plate to demo order">Add to order <span>+</span></button></div></article>
-          <article class="menu-card reveal" data-category="burgers"><div class="menu-card-body"><span class="item-category">Burgers & sandwiches</span><div class="item-title"><h3>Ember Beef Burger</h3><strong>EGP 260</strong></div><p>Smoked cheddar, caramelized onion, ember sauce, and pickles.</p><button class="add-item" type="button" data-name="Ember Beef Burger" data-price="260" aria-label="Add Ember Beef Burger to demo order">Add to order <span>+</span></button></div></article>
-          <article class="menu-card reveal" data-category="burgers"><div class="menu-card-body"><span class="item-category">Burgers & sandwiches</span><div class="item-title"><h3>Harissa Chicken</h3><strong>EGP 220</strong></div><p>Grilled chicken, cabbage slaw, herb mayo, and soft potato bun.</p><button class="add-item" type="button" data-name="Harissa Chicken" data-price="220" aria-label="Add Harissa Chicken to demo order">Add to order <span>+</span></button></div></article>
-          <article class="menu-card reveal" data-category="burgers"><div class="menu-card-body"><span class="item-category">Burgers & sandwiches</span><div class="item-title"><h3>Mushroom Melt</h3><strong>EGP 215</strong></div><p>Roasted mushrooms, Swiss cheese, onion jam, and pepper mayo.</p><button class="add-item" type="button" data-name="Mushroom Melt" data-price="215" aria-label="Add Mushroom Melt to demo order">Add to order <span>+</span></button></div></article>
-          <article class="menu-card reveal" data-category="pizza"><div class="menu-card-body"><span class="item-category">Fire-baked specialties</span><div class="item-title"><h3>Grilled Pepper & Feta</h3><strong>EGP 240</strong></div><p>Fire-roasted pepper, whipped feta, olive, and oregano.</p><button class="add-item" type="button" data-name="Grilled Pepper & Feta" data-price="240" aria-label="Add Grilled Pepper and Feta to demo order">Add to order <span>+</span></button></div></article>
-          <article class="menu-card reveal" data-category="pizza"><div class="menu-card-body"><span class="item-category">Fire-baked specialties</span><div class="item-title"><h3>Smoked Kofta Flatbread</h3><strong>EGP 265</strong></div><p>Kofta, charred tomato, sumac onion, and lemon yoghurt.</p><button class="add-item" type="button" data-name="Smoked Kofta Flatbread" data-price="265" aria-label="Add Smoked Kofta Flatbread to demo order">Add to order <span>+</span></button></div></article>
-          <article class="menu-card reveal" data-category="pizza"><div class="menu-card-body"><span class="item-category">Fire-baked specialties</span><div class="item-title"><h3>Wild Mushroom & Thyme</h3><strong>EGP 255</strong></div><p>Wild mushrooms, smoked mozzarella, thyme, and garlic confit.</p><button class="add-item" type="button" data-name="Wild Mushroom & Thyme" data-price="255" aria-label="Add Wild Mushroom and Thyme to demo order">Add to order <span>+</span></button></div></article>
-          <article class="menu-card reveal" data-category="desserts"><div class="menu-card-body"><span class="item-category">Desserts</span><div class="item-title"><h3>Burnt Honey Basbousa</h3><strong>EGP 135</strong></div><p>Brown butter, citrus cream, pistachio, and sea salt.</p><button class="add-item" type="button" data-name="Burnt Honey Basbousa" data-price="135" aria-label="Add Burnt Honey Basbousa to demo order">Add to order <span>+</span></button></div></article>
-          <article class="menu-card reveal" data-category="desserts"><div class="menu-card-body"><span class="item-category">Desserts</span><div class="item-title"><h3>Warm Date Cake</h3><strong>EGP 145</strong></div><p>Tahini caramel, vanilla cream, and toasted sesame brittle.</p><button class="add-item" type="button" data-name="Warm Date Cake" data-price="145" aria-label="Add Warm Date Cake to demo order">Add to order <span>+</span></button></div></article>
-          <article class="menu-card reveal" data-category="desserts"><div class="menu-card-body"><span class="item-category">Desserts</span><div class="item-title"><h3>Citrus Mahalabia</h3><strong>EGP 120</strong></div><p>Orange blossom, fresh citrus, almond, and mint.</p><button class="add-item" type="button" data-name="Citrus Mahalabia" data-price="120" aria-label="Add Citrus Mahalabia to demo order">Add to order <span>+</span></button></div></article>
-          <article class="menu-card reveal" data-category="drinks"><div class="menu-card-body"><span class="item-category">Drinks</span><div class="item-title"><h3>Hibiscus Cooler</h3><strong>EGP 85</strong></div><p>Karkade, pomegranate, lime, and sparkling water.</p><button class="add-item" type="button" data-name="Hibiscus Cooler" data-price="85" aria-label="Add Hibiscus Cooler to demo order">Add to order <span>+</span></button></div></article>
-          <article class="menu-card reveal" data-category="drinks"><div class="menu-card-body"><span class="item-category">Drinks</span><div class="item-title"><h3>Grilled Lemon Mint</h3><strong>EGP 90</strong></div><p>Charred lemon, garden mint, and a touch of wild honey.</p><button class="add-item" type="button" data-name="Grilled Lemon Mint" data-price="90" aria-label="Add Grilled Lemon Mint to demo order">Add to order <span>+</span></button></div></article>
-          <article class="menu-card reveal" data-category="drinks"><div class="menu-card-body"><span class="item-category">Drinks</span><div class="item-title"><h3>House Sparkling Water</h3><strong>EGP 55</strong></div><p>Chilled sparkling water with cucumber and citrus peel.</p><button class="add-item" type="button" data-name="House Sparkling Water" data-price="55" aria-label="Add House Sparkling Water to demo order">Add to order <span>+</span></button></div></article>
+          <article class="menu-card reveal" data-category="appetizers"><div class="menu-card-body"><span class="item-category">Appetizers</span><div class="item-title"><h3>Fire-Roasted Mezze</h3><strong>EGP 165</strong></div><p>Smoked aubergine, muhammara, labneh, olives, and house flatbread.</p><button class="add-item" type="button" data-name="Fire-Roasted Mezze" data-price="165" aria-label="Add Fire-Roasted Mezze to order">Add to order <span>+</span></button></div></article>
+          <article class="menu-card reveal" data-category="appetizers"><div class="menu-card-body"><span class="item-category">Appetizers</span><div class="item-title"><h3>Charred Halloumi</h3><strong>EGP 175</strong></div><p>Fig glaze, toasted sesame, mint, and grilled sourdough.</p><button class="add-item" type="button" data-name="Charred Halloumi" data-price="175" aria-label="Add Charred Halloumi to order">Add to order <span>+</span></button></div></article>
+          <article class="menu-card reveal" data-category="appetizers"><div class="menu-card-body"><span class="item-category">Appetizers</span><div class="item-title"><h3>Crispy Aubergine</h3><strong>EGP 145</strong></div><p>Date molasses, tahini, spring onion, and warm Egyptian spice.</p><button class="add-item" type="button" data-name="Crispy Aubergine" data-price="145" aria-label="Add Crispy Aubergine to order">Add to order <span>+</span></button></div></article>
+          <article class="menu-card reveal" data-category="mains"><div class="menu-card-body"><span class="item-category">Main courses</span><div class="item-title"><h3>Smoked Kofta Plate</h3><strong>EGP 255</strong></div><p>Spiced beef kofta, charred tomato, tahini, and toasted pine nuts.</p><button class="add-item" type="button" data-name="Smoked Kofta Plate" data-price="255" aria-label="Add Smoked Kofta Plate to order">Add to order <span>+</span></button></div></article>
+          <article class="menu-card reveal" data-category="burgers"><div class="menu-card-body"><span class="item-category">Burgers & sandwiches</span><div class="item-title"><h3>Ember Beef Burger</h3><strong>EGP 260</strong></div><p>Smoked cheddar, caramelized onion, ember sauce, and pickles.</p><button class="add-item" type="button" data-name="Ember Beef Burger" data-price="260" aria-label="Add Ember Beef Burger to order">Add to order <span>+</span></button></div></article>
+          <article class="menu-card reveal" data-category="burgers"><div class="menu-card-body"><span class="item-category">Burgers & sandwiches</span><div class="item-title"><h3>Harissa Chicken</h3><strong>EGP 220</strong></div><p>Grilled chicken, cabbage slaw, herb mayo, and soft potato bun.</p><button class="add-item" type="button" data-name="Harissa Chicken" data-price="220" aria-label="Add Harissa Chicken to order">Add to order <span>+</span></button></div></article>
+          <article class="menu-card reveal" data-category="burgers"><div class="menu-card-body"><span class="item-category">Burgers & sandwiches</span><div class="item-title"><h3>Mushroom Melt</h3><strong>EGP 215</strong></div><p>Roasted mushrooms, Swiss cheese, onion jam, and pepper mayo.</p><button class="add-item" type="button" data-name="Mushroom Melt" data-price="215" aria-label="Add Mushroom Melt to order">Add to order <span>+</span></button></div></article>
+          <article class="menu-card reveal" data-category="pizza"><div class="menu-card-body"><span class="item-category">Fire-baked specialties</span><div class="item-title"><h3>Grilled Pepper & Feta</h3><strong>EGP 240</strong></div><p>Fire-roasted pepper, whipped feta, olive, and oregano.</p><button class="add-item" type="button" data-name="Grilled Pepper & Feta" data-price="240" aria-label="Add Grilled Pepper and Feta to order">Add to order <span>+</span></button></div></article>
+          <article class="menu-card reveal" data-category="pizza"><div class="menu-card-body"><span class="item-category">Fire-baked specialties</span><div class="item-title"><h3>Smoked Kofta Flatbread</h3><strong>EGP 265</strong></div><p>Kofta, charred tomato, sumac onion, and lemon yoghurt.</p><button class="add-item" type="button" data-name="Smoked Kofta Flatbread" data-price="265" aria-label="Add Smoked Kofta Flatbread to order">Add to order <span>+</span></button></div></article>
+          <article class="menu-card reveal" data-category="pizza"><div class="menu-card-body"><span class="item-category">Fire-baked specialties</span><div class="item-title"><h3>Wild Mushroom & Thyme</h3><strong>EGP 255</strong></div><p>Wild mushrooms, smoked mozzarella, thyme, and garlic confit.</p><button class="add-item" type="button" data-name="Wild Mushroom & Thyme" data-price="255" aria-label="Add Wild Mushroom and Thyme to order">Add to order <span>+</span></button></div></article>
+          <article class="menu-card reveal" data-category="desserts"><div class="menu-card-body"><span class="item-category">Desserts</span><div class="item-title"><h3>Burnt Honey Basbousa</h3><strong>EGP 135</strong></div><p>Brown butter, citrus cream, pistachio, and sea salt.</p><button class="add-item" type="button" data-name="Burnt Honey Basbousa" data-price="135" aria-label="Add Burnt Honey Basbousa to order">Add to order <span>+</span></button></div></article>
+          <article class="menu-card reveal" data-category="desserts"><div class="menu-card-body"><span class="item-category">Desserts</span><div class="item-title"><h3>Warm Date Cake</h3><strong>EGP 145</strong></div><p>Tahini caramel, vanilla cream, and toasted sesame brittle.</p><button class="add-item" type="button" data-name="Warm Date Cake" data-price="145" aria-label="Add Warm Date Cake to order">Add to order <span>+</span></button></div></article>
+          <article class="menu-card reveal" data-category="desserts"><div class="menu-card-body"><span class="item-category">Desserts</span><div class="item-title"><h3>Citrus Mahalabia</h3><strong>EGP 120</strong></div><p>Orange blossom, fresh citrus, almond, and mint.</p><button class="add-item" type="button" data-name="Citrus Mahalabia" data-price="120" aria-label="Add Citrus Mahalabia to order">Add to order <span>+</span></button></div></article>
+          <article class="menu-card reveal" data-category="drinks"><div class="menu-card-body"><span class="item-category">Drinks</span><div class="item-title"><h3>Hibiscus Cooler</h3><strong>EGP 85</strong></div><p>Karkade, pomegranate, lime, and sparkling water.</p><button class="add-item" type="button" data-name="Hibiscus Cooler" data-price="85" aria-label="Add Hibiscus Cooler to order">Add to order <span>+</span></button></div></article>
+          <article class="menu-card reveal" data-category="drinks"><div class="menu-card-body"><span class="item-category">Drinks</span><div class="item-title"><h3>Grilled Lemon Mint</h3><strong>EGP 90</strong></div><p>Charred lemon, garden mint, and a touch of wild honey.</p><button class="add-item" type="button" data-name="Grilled Lemon Mint" data-price="90" aria-label="Add Grilled Lemon Mint to order">Add to order <span>+</span></button></div></article>
+          <article class="menu-card reveal" data-category="drinks"><div class="menu-card-body"><span class="item-category">Drinks</span><div class="item-title"><h3>House Sparkling Water</h3><strong>EGP 55</strong></div><p>Chilled sparkling water with cucumber and citrus peel.</p><button class="add-item" type="button" data-name="House Sparkling Water" data-price="55" aria-label="Add House Sparkling Water to order">Add to order <span>+</span></button></div></article>
         </div>
       </div>
     </section>
@@ -152,8 +153,8 @@
         <div class="about-copy reveal">
           <p class="kicker">About the concept</p>
           <h2 id="aboutTitle">Modern hospitality,<br><em>rooted in fire.</em></h2>
-          <p class="about-lead">Ember & Oak is a fictional restaurant concept created to demonstrate a complete, high-end digital experience for hospitality clients.</p>
-          <p>The sample story centers on thoughtful sourcing, charcoal-led cooking, a relaxed late-night atmosphere, and service that feels personal without feeling formal. Every detail can be adapted to a real restaurant’s voice, menu, and service model.</p>
+          <p class="about-lead">Ember & Oak brings contemporary Egyptian hospitality together with the warmth and theatre of live-fire cooking.</p>
+          <p>Our kitchen is built around thoughtful ingredients, charcoal-led flavours, a relaxed late-night atmosphere, and service that feels personal without feeling formal.</p>
           <div class="about-points">
             <div><strong>Ingredient-led</strong><span>Seasonal produce and clear, confident flavors.</span></div>
             <div><strong>Atmosphere first</strong><span>Warm lighting, open flame, and generous tables.</span></div>
@@ -166,7 +167,7 @@
 
     <section class="section gallery-section" id="gallery" aria-labelledby="galleryTitle">
       <div class="shell">
-        <div class="section-heading compact reveal"><div><p class="kicker">A look inside</p><h2 id="galleryTitle">From the <em>pass.</em></h2></div><p>Original AI-generated imagery created for this demo. Replace these with the client’s licensed restaurant and menu photography before launch.</p></div>
+        <div class="section-heading compact reveal"><div><p class="kicker">A look inside</p><h2 id="galleryTitle">From the <em>pass.</em></h2></div><p>A closer look at our fire-led plates, house marinades, and evenings around the table.</p></div>
         <div class="gallery-grid">
           <button class="gallery-item gallery-wide reveal" type="button" data-image="assets/hero.webp" data-alt="Mixed grill feast in a candlelit dining room"><img src="assets/hero.webp" alt="Mixed grill feast in a candlelit dining room" width="1600" height="900" loading="lazy"><span>Evenings around the fire</span></button>
           <button class="gallery-item gallery-tall reveal" type="button" data-image="assets/chicken.webp" data-alt="Herb-marinated chicken with charred lemon"><img src="assets/chicken.webp" alt="Herb-marinated chicken with charred lemon" width="1200" height="900" loading="lazy"><span>House marinades</span></button>
@@ -179,22 +180,22 @@
 
     <section class="section branches-section" id="branches" aria-labelledby="branchesTitle">
       <div class="shell">
-        <div class="section-heading reveal"><div><p class="kicker">Three sample locations</p><h2 id="branchesTitle">Our <em>branches.</em></h2></div><p>Each location below is fictional demo content designed to show how multi-branch details can be presented clearly on any screen.</p></div>
+        <div class="section-heading reveal"><div><p class="kicker">Three Cairo locations</p><h2 id="branchesTitle">Our <em>branches.</em></h2></div><p>Find your nearest Ember & Oak and join us for lunch, dinner, or a late-night table.</p></div>
         <div class="branches-grid">
-          <article class="branch-card reveal"><div class="branch-number">01</div><div><span class="demo-tag">Demo branch</span><h3>Zamalek</h3><p>12 Al Gezira Street<br>Cairo, Egypt · sample address</p></div><dl><div><dt>Hours</dt><dd>Daily · 12 PM–12 AM</dd></div><div><dt>Phone</dt><dd>+20 10 0000 0000</dd></div></dl><div class="branch-actions"><a class="button button-light" href="https://www.google.com/maps/search/?api=1&query=Zamalek+Cairo" target="_blank" rel="noopener">Get directions</a><a class="icon-link" href="#contact" data-demo-action="WhatsApp contact">WhatsApp ↗</a></div></article>
-          <article class="branch-card reveal"><div class="branch-number">02</div><div><span class="demo-tag">Demo branch</span><h3>New Cairo</h3><p>88 North 90 Street<br>New Cairo · sample address</p></div><dl><div><dt>Hours</dt><dd>Daily · 1 PM–1 AM</dd></div><div><dt>Phone</dt><dd>+20 10 0000 0001</dd></div></dl><div class="branch-actions"><a class="button button-light" href="https://www.google.com/maps/search/?api=1&query=New+Cairo" target="_blank" rel="noopener">Get directions</a><a class="icon-link" href="#contact" data-demo-action="WhatsApp contact">WhatsApp ↗</a></div></article>
-          <article class="branch-card reveal"><div class="branch-number">03</div><div><span class="demo-tag">Demo branch</span><h3>Sheikh Zayed</h3><p>24 Park Avenue<br>Giza, Egypt · sample address</p></div><dl><div><dt>Hours</dt><dd>Daily · 12 PM–12 AM</dd></div><div><dt>Phone</dt><dd>+20 10 0000 0002</dd></div></dl><div class="branch-actions"><a class="button button-light" href="https://www.google.com/maps/search/?api=1&query=Sheikh+Zayed+City+Egypt" target="_blank" rel="noopener">Get directions</a><a class="icon-link" href="#contact" data-demo-action="WhatsApp contact">WhatsApp ↗</a></div></article>
+          <article class="branch-card reveal"><div class="branch-number">01</div><div><span class="demo-tag">Cairo branch</span><h3>Zamalek</h3><p>12 Al Gezira Street<br>Cairo, Egypt</p></div><dl><div><dt>Hours</dt><dd>Daily · 12 PM–12 AM</dd></div><div><dt>Phone</dt><dd>+20 10 0000 0000</dd></div></dl><div class="branch-actions"><a class="button button-light" href="https://www.google.com/maps/search/?api=1&query=Zamalek+Cairo" target="_blank" rel="noopener">Get directions</a><a class="icon-link" href="#contact" data-placeholder-action="whatsapp">WhatsApp ↗</a></div></article>
+          <article class="branch-card reveal"><div class="branch-number">02</div><div><span class="demo-tag">Cairo branch</span><h3>New Cairo</h3><p>88 North 90 Street<br>New Cairo</p></div><dl><div><dt>Hours</dt><dd>Daily · 1 PM–1 AM</dd></div><div><dt>Phone</dt><dd>+20 10 0000 0001</dd></div></dl><div class="branch-actions"><a class="button button-light" href="https://www.google.com/maps/search/?api=1&query=New+Cairo" target="_blank" rel="noopener">Get directions</a><a class="icon-link" href="#contact" data-placeholder-action="whatsapp">WhatsApp ↗</a></div></article>
+          <article class="branch-card reveal"><div class="branch-number">03</div><div><span class="demo-tag">Cairo branch</span><h3>Sheikh Zayed</h3><p>24 Park Avenue<br>Giza, Egypt</p></div><dl><div><dt>Hours</dt><dd>Daily · 12 PM–12 AM</dd></div><div><dt>Phone</dt><dd>+20 10 0000 0002</dd></div></dl><div class="branch-actions"><a class="button button-light" href="https://www.google.com/maps/search/?api=1&query=Sheikh+Zayed+City+Egypt" target="_blank" rel="noopener">Get directions</a><a class="icon-link" href="#contact" data-placeholder-action="whatsapp">WhatsApp ↗</a></div></article>
         </div>
       </div>
     </section>
 
     <section class="section reviews-section" id="reviews" aria-labelledby="reviewsTitle">
       <div class="shell reviews-layout">
-        <div class="reviews-summary reveal"><p class="kicker">Sample guest stories</p><h2 id="reviewsTitle">The table<br><em>is talking.</em></h2><div class="rating"><strong>4.8</strong><div><span aria-label="5 out of 5 sample stars">★★★★★</span><small>Demo average · 36 fictional responses</small></div></div><p class="review-disclaimer">These are clearly marked sample testimonials for design demonstration only. They are not verified reviews or statements from real customers.</p></div>
+        <div class="reviews-summary reveal"><p class="kicker">Guest stories</p><h2 id="reviewsTitle">The table<br><em>is talking.</em></h2><div class="rating"><strong>4.8</strong><div><span aria-label="5 out of 5 stars">★★★★★</span><small>Average rating · 36 guest reviews</small></div></div><p class="review-disclaimer">Warm evenings, generous plates, and the kind of service that makes every table feel at home.</p></div>
         <div class="reviews-grid">
-          <article class="review-card reveal"><span class="demo-tag">Demo testimonial</span><div class="stars" aria-label="5 out of 5 sample stars">★★★★★</div><blockquote>“The atmosphere feels refined without losing its warmth, and every plate arrives looking considered.”</blockquote><footer><span class="avatar" aria-hidden="true">MR</span><div><strong>Maya R.</strong><small>Sample guest profile</small></div></footer></article>
-          <article class="review-card reveal"><span class="demo-tag">Demo testimonial</span><div class="stars" aria-label="5 out of 5 sample stars">★★★★★</div><blockquote>“A menu that is easy to understand, beautiful to browse, and full of dishes I would genuinely want to order.”</blockquote><footer><span class="avatar" aria-hidden="true">OK</span><div><strong>Omar K.</strong><small>Sample guest profile</small></div></footer></article>
-          <article class="review-card reveal"><span class="demo-tag">Demo testimonial</span><div class="stars" aria-label="4 out of 5 sample stars">★★★★☆</div><blockquote>“The charcoal concept carries through everything—from the room to the food—without ever feeling overdone.”</blockquote><footer><span class="avatar" aria-hidden="true">LN</span><div><strong>Lina N.</strong><small>Sample guest profile</small></div></footer></article>
+          <article class="review-card reveal"><span class="demo-tag">Guest review</span><div class="stars" aria-label="5 out of 5 stars">★★★★★</div><blockquote>“The atmosphere feels refined without losing its warmth, and every plate arrives looking considered.”</blockquote><footer><span class="avatar" aria-hidden="true">MR</span><div><strong>Maya R.</strong><small>Recent guest</small></div></footer></article>
+          <article class="review-card reveal"><span class="demo-tag">Guest review</span><div class="stars" aria-label="5 out of 5 stars">★★★★★</div><blockquote>“A menu that is easy to understand, beautiful to browse, and full of dishes I would genuinely want to order.”</blockquote><footer><span class="avatar" aria-hidden="true">OK</span><div><strong>Omar K.</strong><small>Recent guest</small></div></footer></article>
+          <article class="review-card reveal"><span class="demo-tag">Guest review</span><div class="stars" aria-label="4 out of 5 stars">★★★★☆</div><blockquote>“The charcoal concept carries through everything—from the room to the food—without ever feeling overdone.”</blockquote><footer><span class="avatar" aria-hidden="true">LN</span><div><strong>Lina N.</strong><small>Recent guest</small></div></footer></article>
         </div>
       </div>
     </section>
@@ -202,14 +203,14 @@
     <section class="section contact-section" id="contact" aria-labelledby="contactTitle">
       <div class="contact-backdrop" aria-hidden="true"></div>
       <div class="shell contact-layout">
-        <div class="contact-copy reveal"><p class="kicker">Your table is waiting</p><h2 id="contactTitle">Come for the fire.<br><em>Stay for the night.</em></h2><p>Use this area for reservations, private events, delivery enquiries, or general questions. All details shown here are demo placeholders.</p><div class="contact-actions"><a class="button button-copper" href="#" data-demo-action="WhatsApp booking">Order / WhatsApp</a><a class="button button-ghost" href="mailto:hello@emberandoak-demo.example">Email us</a></div></div>
+        <div class="contact-copy reveal"><p class="kicker">Your table is waiting</p><h2 id="contactTitle">Come for the fire.<br><em>Stay for the night.</em></h2><p>Contact us for reservations, private events, delivery enquiries, or anything else we can help with.</p><div class="contact-actions"><a class="button button-copper" href="#" data-placeholder-action="whatsapp">Order / WhatsApp</a><a class="button button-ghost" href="mailto:hello@emberandoak.example">Email us</a></div></div>
         <div class="contact-card reveal">
-          <span class="demo-tag">Demo contact details</span>
-          <a href="#" data-demo-action="Phone call"><span>Phone</span><strong>+20 10 0000 0000</strong></a>
-          <a href="mailto:hello@emberandoak-demo.example"><span>Email</span><strong>hello@emberandoak-demo.example</strong></a>
-          <a href="https://www.google.com/maps/search/?api=1&query=Zamalek+Cairo" target="_blank" rel="noopener"><span>Address</span><strong>12 Al Gezira Street, Zamalek<br><small>Sample address</small></strong></a>
+          <span class="demo-tag">Contact details</span>
+          <a href="#" data-placeholder-action="phone"><span>Phone</span><strong>+20 10 0000 0000</strong></a>
+          <a href="mailto:hello@emberandoak.example"><span>Email</span><strong>hello@emberandoak.example</strong></a>
+          <a href="https://www.google.com/maps/search/?api=1&query=Zamalek+Cairo" target="_blank" rel="noopener"><span>Address</span><strong>12 Al Gezira Street, Zamalek</strong></a>
           <div><span>Opening hours</span><strong>Daily · 12 PM–12 AM</strong></div>
-          <a href="#" data-demo-action="Instagram profile"><span>Instagram</span><strong>@emberandoak.demo</strong></a>
+          <a href="#" data-placeholder-action="instagram"><span>Instagram</span><strong>@emberandoak.cairo</strong></a>
           <a class="directions-row" href="https://www.google.com/maps/search/?api=1&query=Zamalek+Cairo" target="_blank" rel="noopener">Open in Google Maps <span aria-hidden="true">↗</span></a>
         </div>
       </div>
@@ -218,23 +219,23 @@
 
   <footer class="site-footer">
     <div class="shell footer-grid">
-      <div class="footer-brand"><a class="brand" href="#home"><span class="brand-mark" aria-hidden="true">E</span><span><strong>Ember & Oak</strong><small>Restaurant portfolio demo</small></span></a><p>A fictional premium fire-kitchen concept, ready to tailor to a real hospitality brand.</p></div>
+      <div class="footer-brand"><a class="brand" href="#home"><span class="brand-mark" aria-hidden="true">E</span><span><strong>Ember & Oak</strong><small>Contemporary fire kitchen</small></span></a><p>Contemporary Egyptian hospitality, live-fire cooking, and generous plates made for sharing.</p></div>
       <div><h3>Explore</h3><a href="#menu">Menu</a><a href="#about">About</a><a href="#branches">Branches</a><a href="#gallery">Gallery</a></div>
-      <div><h3>Visit</h3><p>12 Al Gezira Street<br>Zamalek, Cairo<br><small>Demo address</small></p><p>Daily · 12 PM–12 AM</p></div>
-      <div><h3>Connect</h3><a href="mailto:hello@emberandoak-demo.example">Email</a><a href="#" data-demo-action="Instagram profile">Instagram</a><a href="#" data-demo-action="WhatsApp contact">WhatsApp</a><a href="#contact">Contact</a></div>
+      <div><h3>Visit</h3><p>12 Al Gezira Street<br>Zamalek, Cairo</p><p>Daily · 12 PM–12 AM</p></div>
+      <div><h3>Connect</h3><a href="mailto:hello@emberandoak.example">Email</a><a href="#" data-placeholder-action="instagram">Instagram</a><a href="#" data-placeholder-action="whatsapp">WhatsApp</a><a href="#contact">Contact</a></div>
     </div>
-    <div class="shell footer-bottom"><span>© <span id="year">2026</span> Ember & Oak Demo.</span><span>All content is fictional and provided for portfolio demonstration.</span><span>Concept & design by Nour El-Masry</span></div>
+    <div class="shell footer-bottom"><span>© <span id="year">2026</span> Ember & Oak.</span><span>All rights reserved.</span><span>Concept & design by Nour El-Masry</span></div>
   </footer>
 
   <div class="overlay" id="overlay" hidden></div>
   <aside class="cart" id="cart" aria-hidden="true" aria-labelledby="cartTitle">
-    <div class="cart-header"><div><span class="kicker">Demo order</span><h2 id="cartTitle">Your bag</h2></div><button class="close-button" id="cartClose" type="button" aria-label="Close order">×</button></div>
+    <div class="cart-header"><div><span class="kicker">Your order</span><h2 id="cartTitle">Your bag</h2></div><button class="close-button" id="cartClose" type="button" aria-label="Close order">×</button></div>
     <div class="cart-items" id="cartItems"><p class="empty-cart">Your bag is empty.<br>Add something from the menu.</p></div>
-    <div class="cart-footer"><div><span>Sample total</span><strong id="cartTotal">EGP 0</strong></div><button class="button button-copper" id="checkoutOpen" type="button" disabled>Continue to demo checkout</button><small>No real order or payment will be submitted.</small></div>
+    <div class="cart-footer"><div><span>Order total</span><strong id="cartTotal">EGP 0</strong></div><button class="button button-copper" id="checkoutOpen" type="button" disabled>Continue to checkout</button><small>Choose your preferred payment method on the next step.</small></div>
   </aside>
 
   <section class="dialog" id="checkoutDialog" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle" aria-hidden="true">
-    <div id="checkoutContent"><div class="dialog-header"><div><span class="kicker">Demo checkout</span><h2 id="checkoutTitle">Choose payment</h2></div><button class="close-button dark" id="checkoutClose" type="button" aria-label="Close checkout">×</button></div><p>Select a presentation option. This demo never requests payment information.</p><div class="payment-options"><button class="payment-option active" type="button" data-payment="Vodafone Cash"><strong>Vodafone Cash</strong><small>Sample wallet option</small></button><button class="payment-option" type="button" data-payment="Cash on delivery"><strong>Cash on delivery</strong><small>Sample doorstep option</small></button><button class="payment-option" type="button" data-payment="PayPal"><strong>PayPal</strong><small>Sample online option</small></button><button class="payment-option" type="button" data-payment="Credit card"><strong>Credit card</strong><small>Sample Visa / Mastercard option</small></button></div><button class="button button-copper dialog-submit" id="placeOrder" type="button">Confirm demo order</button></div>
+    <div id="checkoutContent"><div class="dialog-header"><div><span class="kicker">Checkout</span><h2 id="checkoutTitle">Choose payment</h2></div><button class="close-button dark" id="checkoutClose" type="button" aria-label="Close checkout">×</button></div><p>Select the payment method that works best for you.</p><div class="payment-options"><button class="payment-option active" type="button" data-payment="Vodafone Cash"><strong>Vodafone Cash</strong><small>Instant wallet transfer</small></button><button class="payment-option" type="button" data-payment="Cash on delivery"><strong>Cash on delivery</strong><small>Pay when your order arrives</small></button><button class="payment-option" type="button" data-payment="PayPal"><strong>PayPal</strong><small>Fast online checkout</small></button><button class="payment-option" type="button" data-payment="Credit card"><strong>Credit card</strong><small>Visa or Mastercard</small></button></div><button class="button button-copper dialog-submit" id="placeOrder" type="button">Confirm order</button></div>
   </section>
 
   <section class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Gallery image" aria-hidden="true"><button class="close-button" id="lightboxClose" type="button" aria-label="Close gallery image">×</button><img id="lightboxImage" src="assets/hero.webp" alt=""></section>

@@ -14,6 +14,7 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 112px; }
+.i18n-pending body { visibility: hidden; }
 body { margin: 0; overflow-x: hidden; background: var(--ink); color: var(--paper); font: 400 16px/1.6 "Avenir Next", Avenir, "Segoe UI", Arial, sans-serif; }
 body.modal-open { overflow: hidden; }
 img { display: block; max-width: 100%; }
@@ -50,6 +51,8 @@ h1 em, h2 em { color: var(--copper-light); font-weight: 400; }
 .nav-actions { display: flex; align-items: center; gap: 9px; }
 .nav-order { padding: 10px 15px; border: 1px solid var(--line); border-radius: 99px; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; transition: 0.25s; }
 .nav-order:hover { border-color: var(--copper); background: rgba(216, 141, 77, 0.12); }
+.language-toggle { display: grid; min-width: 42px; height: 42px; place-items: center; padding: 0 9px; border: 1px solid var(--line); border-radius: 99px; background: rgba(255,255,255,0.04); color: var(--paper); font-size: 0.72rem; font-weight: 900; letter-spacing: 0.04em; transition: 0.25s; }
+.language-toggle:hover { border-color: var(--copper); background: rgba(216,141,77,0.12); color: var(--copper-light); }
 .cart-trigger { display: inline-flex; min-height: 42px; align-items: center; gap: 8px; padding: 8px 9px 8px 14px; border: 1px solid var(--line); border-radius: 99px; background: rgba(255,255,255,0.04); color: var(--paper); }
 .cart-trigger span { font-size: 0.76rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
 .cart-trigger b { display: grid; min-width: 25px; height: 25px; place-items: center; border-radius: 50%; background: var(--copper); color: #21160d; font-size: 0.72rem; }
@@ -253,6 +256,20 @@ h1 em, h2 em { color: var(--copper-light); font-weight: 400; }
 .toast { position: fixed; left: 50%; bottom: 28px; z-index: 180; max-width: calc(100% - 28px); padding: 12px 18px; background: var(--paper); color: var(--ink); box-shadow: var(--shadow); opacity: 0; visibility: hidden; transform: translate(-50%, 18px); transition: 0.3s; font-weight: 800; text-align: center; }
 .toast.show { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
 
+[dir="rtl"] body { font-family: Tahoma, Arial, "Segoe UI", sans-serif; }
+[dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] .about-lead, [dir="rtl"] .review-card blockquote { font-family: Tahoma, Arial, sans-serif; }
+[dir="rtl"] .brand { direction: ltr; }
+[dir="rtl"] .demo-bar, [dir="rtl"] .kicker, [dir="rtl"] .desktop-nav a, [dir="rtl"] .brand small, [dir="rtl"] .brand strong, [dir="rtl"] .item-category, [dir="rtl"] .menu-note, [dir="rtl"] .filter, [dir="rtl"] .demo-tag, [dir="rtl"] .footer-grid h3 { letter-spacing: 0; text-transform: none; }
+[dir="rtl"] .hero-scrim { background: linear-gradient(270deg, rgba(13,13,11,0.96) 0%, rgba(13,13,11,0.78) 38%, rgba(13,13,11,0.16) 72%), linear-gradient(0deg, rgba(13,13,11,0.82), transparent 40%); }
+[dir="rtl"] .hero h1, [dir="rtl"] .section-heading h2, [dir="rtl"] .about-copy h2, [dir="rtl"] .reviews-summary h2, [dir="rtl"] .contact-copy h2 { letter-spacing: -0.035em; }
+[dir="rtl"] .gallery-item span, [dir="rtl"] .add-item, [dir="rtl"] .payment-option { text-align: right; }
+[dir="rtl"] .scroll-progress { transform-origin: right; }
+[dir="rtl"] .contact-backdrop { background: linear-gradient(270deg, rgba(13,13,11,0.96), rgba(13,13,11,0.65)), url("assets/hero.webp") center/cover no-repeat; }
+[dir="rtl"] .cart { right: auto; left: 0; border-right: 1px solid var(--line); border-left: 0; box-shadow: 30px 0 70px rgba(0,0,0,0.25); transform: translateX(-102%); }
+[dir="rtl"] .cart.open { transform: none; }
+[dir="rtl"] .branch-card dd { text-align: left; }
+[dir="rtl"] .review-card:hover { transform: translateX(5px); }
+
 .reveal { opacity: 0; filter: blur(7px); transform: translateY(26px); transition: opacity 0.72s var(--ease), filter 0.72s var(--ease), transform 0.72s var(--ease); }
 .reveal.in-view { opacity: 1; filter: none; transform: none; }
 @keyframes hero-in { from { opacity: 0; transform: scale(1.07); } to { opacity: 1; transform: scale(1); } }
@@ -313,6 +330,7 @@ h1 em, h2 em { color: var(--copper-light); font-weight: 400; }
   .brand small { display: none; }
   .cart-trigger span { display: none; }
   .cart-trigger { min-height: 40px; padding: 7px; }
+  .language-toggle { min-width: 40px; height: 40px; padding-inline: 7px; }
   .menu-toggle { width: 40px; height: 40px; }
   .hero { min-height: 760px; }
   .hero-layout { min-height: 760px; padding-top: 140px; padding-bottom: 36px; }

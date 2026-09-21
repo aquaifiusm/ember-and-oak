@@ -1,8 +1,8 @@
-# Ember & Oak Restaurant Demo
+# Ember & Oak Restaurant Website
 
-Ember & Oak is a premium, responsive restaurant website built as a portfolio and client demonstration. It presents a fictional Egyptian-inspired charcoal kitchen with a filterable menu, demo ordering flow, branch directory, gallery, sample testimonials, and complete contact experience.
+Ember & Oak is a premium, responsive restaurant website for an Egyptian-inspired charcoal kitchen. It includes Arabic and English experiences, a filterable menu, ordering flow, branch directory, gallery, guest reviews, and complete contact experience.
 
-> All restaurant names, contact details, addresses, prices, ratings, and testimonials are fictional sample content. Replace them before using the project for a real business.
+> Replace the current restaurant details, contact information, prices, ratings, and guest quotes with approved business content before launch.
 
 ## Tech stack
 
@@ -61,14 +61,14 @@ For direct upload, use Cloudflare Pages' drag-and-drop option and upload the con
 
 ## Customize before client launch
 
-Replace the following demo content:
+Replace the following content before launch:
 
 - Restaurant name, logo, description, and concept story
 - Phone, WhatsApp, email, Instagram, and social links
 - Branch names, addresses, hours, and Google Maps links
 - Menu categories, dishes, descriptions, and prices
-- Sample testimonials and demo rating
-- AI-generated food imagery with the client's licensed photography
+- Guest quotes and rating
+- Current food imagery with the client's licensed photography
 - Structured-data contact and address fields in `dist/index.html`
 
 If the client needs reservations, delivery, payments, or a contact form that submits data, connect the UI to an approved backend service before launch.
