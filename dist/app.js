@@ -64,7 +64,7 @@
     "Contact us for reservations, private events, delivery enquiries, or anything else we can help with.": "كلمنا للحجز، المناسبات الخاصة، الدليفري أو أي حاجة نقدر نساعدك فيها.",
     "Order / WhatsApp": "اطلب / واتساب", "Email us": "ابعتلنا إيميل", "Contact details": "بيانات التواصل", "Email": "الإيميل", "Address": "العنوان", "12 Al Gezira Street, Zamalek": "١٢ شارع الجزيرة، الزمالك", "Opening hours": "مواعيد العمل", "Instagram": "إنستجرام", "Open in Google Maps": "افتح على خرائط جوجل",
     "Contemporary fire kitchen": "مطبخ عصري على النار", "Contemporary Egyptian hospitality, live-fire cooking, and generous plates made for sharing.": "ضيافة مصرية عصرية، طبخ على النار وأطباق كريمة معمولة للمشاركة.",
-    "Visit": "زورنا", "Connect": "تواصل", "All rights reserved.": "كل الحقوق محفوظة.", "Concept & design by Nour El-Masry": "الفكرة والتصميم: نور المصري",
+    "Visit": "زورنا", "Connect": "تواصل", "All rights reserved.": "كل الحقوق محفوظة.", "Concept & design by Ziad and Omar": "الفكرة والتصميم: زياد وعمر",
     "Your order": "طلبك", "Your bag": "طلبك", "Order total": "إجمالي الطلب", "Continue to checkout": "كمّل للدفع", "Choose your preferred payment method on the next step.": "اختار طريقة الدفع المناسبة في الخطوة الجاية."
   };
 
