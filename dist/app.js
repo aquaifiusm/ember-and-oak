@@ -1,358 +1,471 @@
 (() => {
   "use strict";
-
+  const content = window.EMBER_CONTENT;
+  if (!content) return;
   const $ = (selector, scope = document) => scope.querySelector(selector);
-  const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  const defaultArabicText = {
-    "Skip to content": "روح للمحتوى",
-    "Ember & Oak · Cairo · Open daily from 12 PM to midnight": "Ember & Oak · القاهرة · فاتحين يوميًا من ١٢ الظهر لحد نص الليل",
-    "Fire kitchen · Cairo": "مطبخ النار · القاهرة",
-    "Home": "الرئيسية", "Menu": "المنيو", "About": "عننا", "Branches": "فروعنا", "Reviews": "آراء الضيوف", "Gallery": "الصور", "Contact": "تواصل معانا",
-    "Order": "اطلب", "Bag": "الطلب", "Book / Contact us": "احجز / كلمنا",
-    "Contemporary Egyptian fire kitchen": "مطبخ مصري معاصر على الفحم",
-    "Where fire": "هنا النار", "finds": "بتعمل", "flavour.": "الطعم.",
-    "A cinematic restaurant concept shaped around glowing charcoal, generous plates, and memorable nights around the table.": "تجربة أكل دافية حوالين الفحم، بطباق كريمة وليالي حلوة بتتجمع فيها الناس على سفرة واحدة.",
-    "View the menu": "شوف المنيو",
-    "Gather around the fire for generous plates and good company.": "اتجمعوا حوالين النار، أكل كتير وصحبة أحلى.",
-    "Tonight": "النهارده", "Open until midnight": "فاتحين لحد نص الليل", "Location": "المكان", "Zamalek, Cairo": "الزمالك، القاهرة", "Get directions": "اعرف الطريق", "WhatsApp": "واتساب", "Explore": "اكتشف",
-    "Charcoal grilled": "مشوي على الفحم", "Made to order": "بيتعمل وقت الطلب", "Egyptian-inspired": "بروح مصرية", "Open daily": "فاتحين كل يوم",
-    "Our menu · priced in EGP": "المنيو · الأسعار بالجنيه المصري",
-    "Built for every": "لكل واحد", "craving.": "مزاجه.",
-    "From fire-roasted starters to charcoal-grilled mains, every plate is made for sharing around the table.": "من المقبلات المتحمرة على النار للأطباق الرئيسية المشوية على الفحم، كل طبق معمول عشان يتشارك على السفرة.",
-    "All": "الكل", "Appetizers": "مقبلات", "Main courses": "أطباق رئيسية", "Burgers": "برجر", "Specialties": "أطباق مميزة", "Desserts": "حلويات", "Drinks": "مشروبات", "18 dishes": "١٨ طبق",
-    "Burgers & sandwiches": "برجر وساندوتشات", "Fire-baked specialties": "مخبوزات على النار", "Add to order": "ضيف للطلب",
-    "Ember Half Chicken": "نص فرخة إمبر", "Coal-Kissed Striploin": "ستربلوين على الفحم", "Fire-Roasted Mezze": "مزة مشوية على النار", "Charred Halloumi": "حلومي مشوي", "Crispy Aubergine": "باذنجان مقرمش", "Smoked Kofta Plate": "طبق كفتة مدخنة", "Ember Beef Burger": "برجر إمبر باللحمة", "Harissa Chicken": "فراخ هريسة", "Mushroom Melt": "مشروم ميلت", "Grilled Pepper & Feta": "فلفل مشوي وفيتا", "Grilled Pepper and Feta": "فلفل مشوي وفيتا", "Smoked Kofta Flatbread": "فلات بريد بالكفتة المدخنة", "Wild Mushroom & Thyme": "مشروم بري وزعتر", "Wild Mushroom and Thyme": "مشروم بري وزعتر", "Burnt Honey Basbousa": "بسبوسة بالعسل المحروق", "Warm Date Cake": "كيكة تمر دافية", "Citrus Mahalabia": "مهلبية بالحمضيات", "Hibiscus Cooler": "كركديه ساقع", "Grilled Lemon Mint": "ليمون بالنعناع المشوي", "House Sparkling Water": "مياه غازية بطريقتنا",
-    "24-hour herb marinade, burnt lemon, toum, and fire-roasted jus.": "متبلة بالأعشاب ٢٤ ساعة، ليمون مشوي، تومية وصوص تحمير.",
-    "250g grain-fed beef, pepper jus, roasted shallots, and garden herbs.": "٢٥٠ جرام لحمة، صوص فلفل، شالوت مشوي وأعشاب طازة.",
-    "Smoked aubergine, muhammara, labneh, olives, and house flatbread.": "باذنجان مدخن، محمرة، لبنة، زيتون وخبز البيت.",
-    "Fig glaze, toasted sesame, mint, and grilled sourdough.": "صوص تين، سمسم محمص، نعناع وساوردو مشوي.",
-    "Date molasses, tahini, spring onion, and warm Egyptian spice.": "دبس تمر، طحينة، بصل أخضر وبهارات مصرية دافية.",
-    "Spiced beef kofta, charred tomato, tahini, and toasted pine nuts.": "كفتة لحمة متبلة، طماطم مشوية، طحينة وصنوبر محمص.",
-    "Smoked cheddar, caramelized onion, ember sauce, and pickles.": "شيدر مدخن، بصل مكرمل، صوص إمبر ومخلل.",
-    "Grilled chicken, cabbage slaw, herb mayo, and soft potato bun.": "فراخ مشوية، كول سلو، مايونيز أعشاب وخبز بطاطس طري.",
-    "Roasted mushrooms, Swiss cheese, onion jam, and pepper mayo.": "مشروم محمر، جبنة سويسري، مربى بصل ومايونيز فلفل.",
-    "Fire-roasted pepper, whipped feta, olive, and oregano.": "فلفل مشوي على النار، فيتا كريمي، زيتون وأوريجانو.",
-    "Kofta, charred tomato, sumac onion, and lemon yoghurt.": "كفتة، طماطم مشوية، بصل بالسماق وزبادي بالليمون.",
-    "Wild mushrooms, smoked mozzarella, thyme, and garlic confit.": "مشروم بري، موتزاريلا مدخنة، زعتر وثوم كونفي.",
-    "Brown butter, citrus cream, pistachio, and sea salt.": "زبدة بنية، كريمة حمضيات، فستق وملح بحري.",
-    "Tahini caramel, vanilla cream, and toasted sesame brittle.": "كراميل طحينة، كريمة فانيليا وسمسم محمص مقرمش.",
-    "Orange blossom, fresh citrus, almond, and mint.": "ماء زهر، حمضيات طازة، لوز ونعناع.",
-    "Karkade, pomegranate, lime, and sparkling water.": "كركديه، رمان، لايم ومياه غازية.",
-    "Charred lemon, garden mint, and a touch of wild honey.": "ليمون مشوي، نعناع طازة ولمسة عسل.",
-    "Chilled sparkling water with cucumber and citrus peel.": "مياه غازية ساقعة بالخيار وقشر الحمضيات.",
-    "Slow fire": "نار هادية", "Good company": "ولمة حلوة", "About the concept": "حكايتنا", "Modern hospitality,": "ضيافة عصرية،", "rooted in fire.": "أصلها النار.",
-    "Ember & Oak brings contemporary Egyptian hospitality together with the warmth and theatre of live-fire cooking.": "Ember & Oak بيجمع الضيافة المصرية العصرية مع دفا ومتعة الطبخ قدام النار.",
-    "Our kitchen is built around thoughtful ingredients, charcoal-led flavours, a relaxed late-night atmosphere, and service that feels personal without feeling formal.": "مطبخنا قائم على مكونات مختارة، طعم الفحم، قعدة ليلية مريحة وخدمة ودودة من غير تكلف.",
-    "Ingredient-led": "المكون هو الأساس", "Seasonal produce and clear, confident flavors.": "مكونات موسمية وطعم واضح ومتوازن.",
-    "Atmosphere first": "القعدة أولاً", "Warm lighting, open flame, and generous tables.": "إضاءة دافية، نار مفتوحة وسفرة كريمة.",
-    "Made for people": "معمول للّمة", "Simple booking, ordering, and branch discovery.": "حجز وطلب ووصول لأقرب فرع بكل سهولة.", "See the atmosphere": "شوف القعدة",
-    "A look inside": "من جوه المكان", "From the": "من قلب", "pass.": "المطبخ.",
-    "A closer look at our fire-led plates, house marinades, and evenings around the table.": "لقطة أقرب لأطباقنا على النار، تتبيلات البيت وليالينا حوالين السفرة.",
-    "Evenings around the fire": "ليالي حوالين النار", "House marinades": "تتبيلات البيت", "From the charcoal": "من قلب الفحم", "Made to share": "معمول للمشاركة", "Simple, confident plates": "أطباق بسيطة وواثقة",
-    "Three Cairo locations": "٣ فروع في القاهرة", "Our": "فروعنا", "branches.": "قريبة منك.",
-    "Find your nearest Ember & Oak and join us for lunch, dinner, or a late-night table.": "اختار أقرب فرع Ember & Oak وتعالى لنا على الغدا أو العشا أو قعدة آخر الليل.",
-    "Cairo branch": "فرع القاهرة", "Zamalek": "الزمالك", "New Cairo": "القاهرة الجديدة", "Sheikh Zayed": "الشيخ زايد", "12 Al Gezira Street": "١٢ شارع الجزيرة", "Cairo, Egypt": "القاهرة، مصر", "88 North 90 Street": "٨٨ شارع التسعين الشمالي", "24 Park Avenue": "٢٤ بارك أفينيو", "Giza, Egypt": "الجيزة، مصر", "Hours": "المواعيد", "Phone": "التليفون", "Daily · 12 PM–12 AM": "يوميًا · ١٢ ظهرًا–١٢ منتصف الليل", "Daily · 1 PM–1 AM": "يوميًا · ١ ظهرًا–١ صباحًا", "WhatsApp ↗": "واتساب ↗",
-    "Guest stories": "حكايات ضيوفنا", "The table": "السفرة", "is talking.": "بتحكي.", "Average rating · 36 guest reviews": "متوسط التقييم · ٣٦ رأي",
-    "Warm evenings, generous plates, and the kind of service that makes every table feel at home.": "ليالي دافية، أطباق كريمة وخدمة تخلي كل سفرة تحس إنها في بيتها.",
-    "Guest review": "رأي ضيف", "Recent guest": "ضيف عندنا",
-    "“The atmosphere feels refined without losing its warmth, and every plate arrives looking considered.”": "«القعدة راقية ودافية في نفس الوقت، وكل طبق واضح إنه معمول باهتمام.»",
-    "“A menu that is easy to understand, beautiful to browse, and full of dishes I would genuinely want to order.”": "«المنيو واضح وشكله حلو، وكل طبق فيه يفتح النفس ويتطلب.»",
-    "“The charcoal concept carries through everything—from the room to the food—without ever feeling overdone.”": "«روح الفحم موجودة في كل حاجة من المكان للأكل، من غير ما تبقى زيادة.»",
-    "Your table is waiting": "سفرتك مستنياك", "Come for the fire.": "تعالى عشان النار.", "Stay for the night.": "وخليك للسهرة.",
-    "Contact us for reservations, private events, delivery enquiries, or anything else we can help with.": "كلمنا للحجز، المناسبات الخاصة، الدليفري أو أي حاجة نقدر نساعدك فيها.",
-    "Order / WhatsApp": "اطلب / واتساب", "Email us": "ابعتلنا إيميل", "Contact details": "بيانات التواصل", "Email": "الإيميل", "Address": "العنوان", "12 Al Gezira Street, Zamalek": "١٢ شارع الجزيرة، الزمالك", "Opening hours": "مواعيد العمل", "Instagram": "إنستجرام", "Open in Google Maps": "افتح على خرائط جوجل",
-    "Contemporary fire kitchen": "مطبخ عصري على النار", "Contemporary Egyptian hospitality, live-fire cooking, and generous plates made for sharing.": "ضيافة مصرية عصرية، طبخ على النار وأطباق كريمة معمولة للمشاركة.",
-    "Visit": "زورنا", "Connect": "تواصل", "All rights reserved.": "كل الحقوق محفوظة.", "Concept & design by Ziad and Omar": "الفكرة والتصميم: زياد وعمر",
-    "Your order": "طلبك", "Your bag": "طلبك", "Order total": "إجمالي الطلب", "Continue to checkout": "كمّل للدفع", "Choose your preferred payment method on the next step.": "اختار طريقة الدفع المناسبة في الخطوة الجاية."
-  };
-
-  const defaultAttributeArabic = {
-    "Ember and Oak home": "الصفحة الرئيسية لمطعم Ember & Oak", "Primary navigation": "القائمة الرئيسية", "Mobile navigation": "قائمة الموبايل", "Open order": "افتح الطلب", "Open navigation": "افتح القائمة", "Close navigation": "اقفل القائمة", "Restaurant information": "معلومات المطعم", "Filter menu": "فلتر المنيو", "Close order": "اقفل الطلب", "Close checkout": "اقفل الدفع", "Gallery image": "صورة من المطعم", "Close gallery image": "اقفل الصورة", "5 out of 5 stars": "٥ نجوم من ٥", "4 out of 5 stars": "٤ نجوم من ٥",
-    "A candlelit table with a generous mixed-grill feast": "سفرة مشويات مشكلة في إضاءة دافية", "Herb-charred half chicken with roasted lemon": "نص فرخة مشوية بالأعشاب والليمون", "Sliced charcoal-grilled striploin with roasted shallots": "شرائح ستربلوين مشوية على الفحم", "Chargrilled chicken plated with herbs and roasted lemon": "فراخ مشوية مع أعشاب وليمون", "Close detail of a charcoal-grilled beef dish": "تفاصيل طبق لحمة مشوية على الفحم", "Mixed grill feast in a candlelit dining room": "سفرة مشويات مشكلة في قاعة بإضاءة دافية", "Herb-marinated chicken with charred lemon": "فراخ متبلة بالأعشاب مع ليمون مشوي", "Sliced charcoal-grilled beef": "شرائح لحمة مشوية على الفحم", "A table set for a mixed grill dinner": "سفرة عشا ومشويات مشكلة", "Restaurant-style beef plate in warm light": "طبق لحمة في إضاءة دافية"
-  };
-
-  const defaultUi = {
-    ar: {
-      switchLabel: "حوّل الموقع للإنجليزي", switchText: "EN", emptyCart: "طلبك فاضي.<br>اختار حاجة حلوة من المنيو.", remove: "شيل", added: (name) => `اتضاف ${name} لطلبك`, choosePayment: "اختار طريقة الدفع", checkout: "الدفع", paymentIntro: "اختار طريقة الدفع الأنسب ليك.", confirmOrder: "أكد الطلب", orderReady: "طلبك جاهز للتأكيد", orderReadyBody: (payment) => `اخترت الدفع عن طريق <strong>${payment}</strong>.<br>تقدر تكمل الطلب بالتواصل مع المطعم.`, done: "تم",
-      actions: { whatsapp: "لينك واتساب هيتضاف هنا قريب.", phone: "رقم الاتصال هيتربط هنا قريب.", instagram: "لينك إنستجرام هيتضاف هنا قريب." }
-    },
-    en: {
-      switchLabel: "Switch to Arabic", switchText: "عربي", emptyCart: "Your bag is empty.<br>Add something from the menu.", remove: "Remove", added: (name) => `${name} added to your order`, choosePayment: "Choose payment", checkout: "Checkout", paymentIntro: "Select the payment method that works best for you.", confirmOrder: "Confirm order", orderReady: "Order ready to confirm", orderReadyBody: (payment) => `You selected <strong>${payment}</strong>.<br>Contact the restaurant to complete your order.`, done: "Done",
-      actions: { whatsapp: "The WhatsApp link will be connected soon.", phone: "The call link will be connected soon.", instagram: "The Instagram link will be connected soon." }
-    }
-  };
-
-  const defaultPaymentNames = { "Vodafone Cash": "فودافون كاش", "Cash on delivery": "الدفع عند الاستلام", "PayPal": "باي بال", "Credit card": "كارت بنكي" };
-  const content = window.EMBER_CONTENT || {};
-  const arabicText = content.translations?.text || defaultArabicText;
-  const attributeArabic = content.translations?.attributes || defaultAttributeArabic;
-  const ui = content.translations?.ui || defaultUi;
-  const paymentNames = content.paymentMethods
-    ? Object.fromEntries(content.paymentMethods.map((method) => [method.id, method.name.ar]))
-    : defaultPaymentNames;
-
-  function escapeHTML(value) {
-    return String(value).replace(/[&<>"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[character]);
-  }
-
-  function registerPair(pair) {
-    if (pair?.en && pair?.ar) arabicText[pair.en] = pair.ar;
-  }
-
-  function renderManagedContent() {
-    if (content.menuItems?.length) {
-      content.menuItems.forEach((item) => {
-        registerPair(item.categoryText); registerPair(item.name); registerPair(item.description); registerPair(item.imageAlt);
-        if (item.imageAlt) attributeArabic[item.imageAlt.en] = item.imageAlt.ar;
-      });
-      $("#menuGrid").innerHTML = content.menuItems.map((item) => {
-        const image = item.image ? `<img src="${escapeHTML(item.image)}" alt="${escapeHTML(item.imageAlt?.en || item.name.en)}" width="1200" height="900" loading="lazy">` : "";
-        return `<article class="menu-card${item.image ? " menu-card-image" : ""} reveal" data-category="${escapeHTML(item.category)}">${image}<div class="menu-card-body"><span class="item-category">${escapeHTML(item.categoryText.en)}</span><div class="item-title"><h3>${escapeHTML(item.name.en)}</h3><strong>EGP ${Number(item.price)}</strong></div><p>${escapeHTML(item.description.en)}</p><button class="add-item" type="button" data-name="${escapeHTML(item.name.en)}" data-price="${Number(item.price)}" aria-label="Add ${escapeHTML(item.name.en)} to order">Add to order <span>+</span></button></div></article>`;
-      }).join("");
-      const countEnglish = `${content.menuItems.length} dishes`;
-      const countArabic = `${content.menuItems.length.toLocaleString("ar-EG")} طبق`;
-      $(".menu-note").textContent = countEnglish;
-      arabicText[countEnglish] = countArabic;
-    }
-
-    if (content.branches?.length) {
-      content.branches.forEach((branch) => {
-        registerPair(branch.name); registerPair(branch.tag); registerPair(branch.hours);
-        branch.address.en.forEach((line, index) => { arabicText[line] = branch.address.ar[index]; });
-      });
-      $(".branches-grid").innerHTML = content.branches.map((branch, index) => {
-        const whatsappAttribute = branch.whatsappUrl === "#contact" ? ' data-placeholder-action="whatsapp"' : "";
-        return `<article class="branch-card reveal"><div class="branch-number">${String(index + 1).padStart(2, "0")}</div><div><span class="demo-tag">${escapeHTML(branch.tag.en)}</span><h3>${escapeHTML(branch.name.en)}</h3><p>${branch.address.en.map(escapeHTML).join("<br>")}</p></div><dl><div><dt>Hours</dt><dd>${escapeHTML(branch.hours.en)}</dd></div><div><dt>Phone</dt><dd>${escapeHTML(branch.phone)}</dd></div></dl><div class="branch-actions"><a class="button button-light" href="${escapeHTML(branch.mapsUrl)}" target="_blank" rel="noopener">Get directions</a><a class="icon-link" href="${escapeHTML(branch.whatsappUrl)}"${whatsappAttribute}>WhatsApp ↗</a></div></article>`;
-      }).join("");
-    }
-
-    if (content.galleryItems?.length) {
-      content.galleryItems.forEach((item) => {
-        registerPair(item.caption); registerPair(item.alt); attributeArabic[item.alt.en] = item.alt.ar;
-      });
-      $(".gallery-grid").innerHTML = content.galleryItems.map((item) => `<button class="gallery-item${item.layout ? ` ${escapeHTML(item.layout)}` : ""} reveal" type="button" data-image="${escapeHTML(item.image)}" data-alt="${escapeHTML(item.alt.en)}"><img src="${escapeHTML(item.image)}" alt="${escapeHTML(item.alt.en)}" width="1600" height="900" loading="lazy"><span>${escapeHTML(item.caption.en)}</span></button>`).join("");
-    }
-
-    if (content.reviews?.length) {
-      content.reviews.forEach((review) => {
-        registerPair(review.name); registerPair(review.role);
-        arabicText[`“${review.quote.en}”`] = `«${review.quote.ar}»`;
-        attributeArabic[`${review.stars} out of 5 stars`] = `${review.stars.toLocaleString("ar-EG")} نجوم من ٥`;
-      });
-      $(".reviews-grid").innerHTML = content.reviews.map((review) => {
-        const stars = "★".repeat(review.stars) + "☆".repeat(5 - review.stars);
-        return `<article class="review-card reveal"><span class="demo-tag">Guest review</span><div class="stars" aria-label="${review.stars} out of 5 stars">${stars}</div><blockquote>“${escapeHTML(review.quote.en)}”</blockquote><footer><span class="avatar" aria-hidden="true">${escapeHTML(review.initials)}</span><div><strong>${escapeHTML(review.name.en)}</strong><small>${escapeHTML(review.role.en)}</small></div></footer></article>`;
-      }).join("");
-    }
-
-    if (content.restaurant) {
-      const restaurant = content.restaurant;
-      registerPair(restaurant.address); registerPair(restaurant.hours); registerPair(restaurant.credit);
-      $$(".brand strong").forEach((element) => { element.textContent = restaurant.name; });
-      const contactLinks = $$(".contact-card > a");
-      if (contactLinks[0]) { contactLinks[0].href = restaurant.phone.startsWith("+") ? `tel:${restaurant.phone.replace(/\s/g, "")}` : restaurant.phone; $("strong", contactLinks[0]).textContent = restaurant.phone; contactLinks[0].removeAttribute("data-placeholder-action"); }
-      if (contactLinks[1]) { contactLinks[1].href = `mailto:${restaurant.email}`; $("strong", contactLinks[1]).textContent = restaurant.email; }
-      if (contactLinks[2]) { contactLinks[2].href = restaurant.mapsUrl; $("strong", contactLinks[2]).textContent = restaurant.address.en; }
-      const hours = $(".contact-card > div strong"); if (hours) hours.textContent = restaurant.hours.en;
-      if (contactLinks[3]) { contactLinks[3].href = restaurant.instagramUrl; $("strong", contactLinks[3]).textContent = restaurant.instagram; if (restaurant.instagramUrl !== "#") contactLinks[3].removeAttribute("data-placeholder-action"); }
-      if (contactLinks[4]) contactLinks[4].href = restaurant.mapsUrl;
-      const emailButtons = $$('a[href^="mailto:"]'); emailButtons.forEach((link) => { link.href = `mailto:${restaurant.email}`; });
-      const orderButton = $('.contact-actions [data-placeholder-action="whatsapp"]'); if (orderButton && restaurant.whatsappUrl !== "#") { orderButton.href = restaurant.whatsappUrl; orderButton.removeAttribute("data-placeholder-action"); }
-      const footerVisit = $(".footer-grid > div:nth-child(3)");
-      if (footerVisit) {
-        const paragraphs = $$("p", footerVisit);
-        if (paragraphs[0]) paragraphs[0].innerHTML = restaurant.footerAddress.en;
-        if (paragraphs[1]) paragraphs[1].textContent = restaurant.hours.en;
-        const enLines = restaurant.footerAddress.en.split("<br>"); const arLines = restaurant.footerAddress.ar.split("<br>");
-        enLines.forEach((line, index) => { arabicText[line] = arLines[index]; });
-      }
-      const credit = $(".footer-bottom > span:last-child"); if (credit) credit.textContent = restaurant.credit.en;
-      const footerConnect = $(".footer-grid > div:nth-child(4)");
-      if (footerConnect) {
-        const links = $$("a", footerConnect);
-        if (links[0]) links[0].href = `mailto:${restaurant.email}`;
-        if (links[1]) { links[1].href = restaurant.instagramUrl; if (restaurant.instagramUrl !== "#") links[1].removeAttribute("data-placeholder-action"); }
-        if (links[2]) { links[2].href = restaurant.whatsappUrl; if (restaurant.whatsappUrl !== "#") links[2].removeAttribute("data-placeholder-action"); }
-      }
-    }
-  }
-
-  renderManagedContent();
-  const header = $("#siteHeader");
-  const progress = $("#scrollProgress");
-  const menuToggle = $("#menuToggle");
-  const mobileMenu = $("#mobileMenu");
-  const overlay = $("#overlay");
-  const cartPanel = $("#cart");
-  const checkoutDialog = $("#checkoutDialog");
-  const checkoutContent = $("#checkoutContent");
-  const lightbox = $("#lightbox");
-  const toast = $("#toast");
-  const languageToggle = $("#languageToggle");
-  const cart = [];
-  const textRecords = [];
-  const attributeRecords = [];
-  let currentLanguage = content.defaultLanguage === "en" ? "en" : "ar";
-  let lastFocused = null;
+  const $$ = (selector, scope = document) => [
+    ...scope.querySelectorAll(selector),
+  ];
+  const escape = (value) =>
+    String(value ?? "").replace(
+      /[&<>"']/g,
+      (char) =>
+        ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        })[char],
+    );
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+  const cart = new Map();
+  let language = content.defaultLanguage || "ar";
+  let category = "all";
   let toastTimer;
-  let checkoutPayment = null;
+  let galleryIndex = 0;
+  let returnFocus;
+  const brandName = () =>
+    typeof content.restaurant.name === "string"
+      ? content.restaurant.name
+      : content.restaurant.name[language];
+  const text = (value) =>
+    String(
+      typeof value === "object"
+        ? value?.[language] || value?.en || ""
+        : value || "",
+    )
+      .replaceAll("{restaurant}", brandName())
+      .replaceAll("Ember & Oak", brandName());
+  const t = (english) =>
+    text(
+      language === "ar"
+        ? content.translations.text[english] ||
+            content.translations.attributes[english] ||
+            english
+        : english,
+    );
+  const ui = () => content.translations.ui[language];
+  const money = (value) =>
+    `${Number(value).toLocaleString(language === "ar" ? "ar-EG" : "en-EG")} ${language === "ar" ? "ج.م" : "EGP"}`;
+  const resolve = (path) =>
+    path.split(".").reduce((value, key) => value?.[key], content);
+  const total = () =>
+    [...cart].reduce(
+      (sum, [index, count]) => sum + content.menuItems[index].price * count,
+      0,
+    );
 
-  function captureTranslations() {
-    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-    while (walker.nextNode()) {
-      const node = walker.currentNode;
-      const value = node.nodeValue.trim();
-      if (!value || (!arabicText[value] && !/^EGP\s+\d/.test(value))) continue;
-      textRecords.push({ node, english: value, before: node.nodeValue.match(/^\s*/)[0], after: node.nodeValue.match(/\s*$/)[0] });
-    }
-    $$('[aria-label], [alt], [data-alt]').forEach((element) => {
-      ["aria-label", "alt", "data-alt"].forEach((attribute) => {
-        if (element.hasAttribute(attribute)) attributeRecords.push({ element, attribute, english: element.getAttribute(attribute) });
-      });
+  // Empty or disabled optional sections disappear together with their navigation links.
+  for (const [id, items] of [
+    ["branches", content.branches],
+    ["reviews", content.reviews],
+    ["gallery", content.galleryItems],
+  ]) {
+    const hidden = content.sections?.[id] === false || !items.length;
+    $(`#${id}`).hidden = hidden;
+    $$(`a[href="#${id}"]`).forEach((link) => { link.hidden = hidden; });
+  }
+
+  for (const [key, value] of Object.entries(content.theme || {})) {
+    if (/^#[\da-f]{3,8}$/i.test(value))
+      document.documentElement.style.setProperty(`--${key}`, value);
+  }
+  $$("[data-image]").forEach((image) => {
+    if (content.media[image.dataset.image])
+      image.src = content.media[image.dataset.image];
+  });
+  $$("[data-logo]").forEach((mark) => {
+    if (content.restaurant.logo) {
+      mark.classList.add("has-logo");
+      mark.innerHTML = `<img src="${escape(content.restaurant.logo)}" alt="" width="56" height="48">`;
+    } else
+      mark.textContent = content.restaurant.monogram || brandName().slice(0, 2);
+  });
+  if (content.restaurant.logo)
+    $('link[rel="icon"]').href = content.restaurant.logo;
+
+  function linkFor(kind) {
+    const restaurant = content.restaurant;
+    if (kind === "maps") return restaurant.mapsUrl;
+    if (kind === "email") return `mailto:${restaurant.email}`;
+    if (kind === "phone") return restaurant.phoneUrl || "#contact";
+    return restaurant[`${kind}Url`] || "#contact";
+  }
+  function linkAttributes(kind, url = linkFor(kind)) {
+    const placeholder = !url || url === "#" || url === "#contact";
+    return `href="${escape(url || "#contact")}"${placeholder ? ` data-placeholder="${kind}"` : /^(https?:)/.test(url) ? ' target="_blank" rel="noopener"' : ""}`;
+  }
+  function renderMenu() {
+    const featured = new Set(content.featuredItems || []);
+    let featuredHTML = "",
+      listHTML = "";
+    content.menuItems.forEach((item, index) => {
+      const name = escape(text(item.name)),
+        description = escape(text(item.description));
+      const alt = escape(text(item.imageAlt || item.name));
+      const categoryName = escape(text(item.categoryText));
+      const addLabel = escape(
+        language === "ar"
+          ? `ضيف ${text(item.name)} للطلب`
+          : `Add ${text(item.name)} to order`,
+      );
+      if (featured.has(index) && item.image) {
+        featuredHTML += `<article class="menu-card" data-category="${escape(item.category)}"><div class="menu-photo"><img src="${escape(item.image)}" alt="${alt}" width="900" height="600" loading="lazy"></div><div class="menu-card-body"><span class="item-category">${categoryName}</span><div class="item-title"><h3>${name}</h3><strong>${money(item.price)}</strong></div><p>${description}</p><button class="add-item" type="button" data-add="${index}" aria-label="${addLabel}"><span>${t("Add to order")}</span><span aria-hidden="true">+</span></button></div></article>`;
+      } else {
+        listHTML += `<article class="menu-row" data-category="${escape(item.category)}">${item.image ? `<img src="${escape(item.image)}" alt="${alt}" width="74" height="74" loading="lazy">` : ""}<div class="menu-row-copy"><span class="item-category">${categoryName}</span><div class="item-title"><h3>${name}</h3><strong>${money(item.price)}</strong></div><p>${description}</p></div><button class="row-add" type="button" data-add="${index}" aria-label="${addLabel}">+</button></article>`;
+      }
     });
+    $("#featuredMenu").innerHTML = featuredHTML;
+    $("#menuGrid").innerHTML = listHTML;
+    $("#menuFilters").innerHTML = content.menuCategories
+      .filter(
+        (item) =>
+          item.id === "all" ||
+          content.menuItems.some((dish) => dish.category === item.id),
+      )
+      .map(
+        (item) =>
+          `<button type="button" class="filter${item.id === category ? " active" : ""}" data-filter="${escape(item.id)}" aria-pressed="${item.id === category}">${escape(text(item.name))}</button>`,
+      )
+      .join("");
+    filterMenu();
   }
-
-  function translated(value) {
-    if (currentLanguage === "en") return value;
-    if (arabicText[value]) return arabicText[value];
-    return /^EGP\s+\d/.test(value) ? value.replace("EGP", "ج.م") : value;
+  function filterMenu(animate = false) {
+    $$("[data-category]").forEach((item) => {
+      item.hidden = category !== "all" && item.dataset.category !== category;
+      if (animate && !reduceMotion && !item.hidden) {
+        item.classList.remove("filter-pop");
+        void item.offsetWidth;
+        item.classList.add("filter-pop");
+      }
+    });
+    $$("[data-filter]").forEach((button) => {
+      button.classList.toggle("active", button.dataset.filter === category);
+      button.setAttribute(
+        "aria-pressed",
+        String(button.dataset.filter === category),
+      );
+    });
+    const visible = $$("[data-category]:not([hidden])").length;
+    $("#menuCount").textContent =
+      `${visible.toLocaleString(language === "ar" ? "ar-EG" : "en-EG")} ${language === "ar" ? "طبق · الأسعار بالجنيه" : "dishes · prices in EGP"}`;
+    $("#featuredMenu").hidden = !$$(
+      "[data-category]:not([hidden])",
+      $("#featuredMenu"),
+    ).length;
+    const hasList = !!$$("[data-category]:not([hidden])", $("#menuGrid"))
+      .length;
+    $("#menuGrid").hidden = !hasList;
+    $("#menuListLabel").hidden = !hasList || $("#featuredMenu").hidden;
   }
-
-  function translatedAttribute(value) {
-    if (currentLanguage === "en") return value;
-    if (attributeArabic[value]) return attributeArabic[value];
-    const addMatch = value.match(/^Add (.+) to order$/);
-    return addMatch ? `ضيف ${translated(addMatch[1])} للطلب` : value;
+  function renderBranches() {
+    $("#branchesGrid").innerHTML = content.branches
+      .map(
+        (branch, index) =>
+          `<article class="branch-card"><div class="branch-top"><small>${escape(text(branch.tag))}</small><span class="branch-number" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span></div><h3>${escape(text(branch.name))}</h3><p>${branch.address[language].map(escape).join("<br>")}</p><dl><div><dt>${t("Hours")}</dt><dd>${escape(text(branch.hours))}</dd></div><div><dt>${t("Phone")}</dt><dd class="phone">${escape(branch.phone)}</dd></div></dl><div class="branch-actions"><a class="button button-outline" ${linkAttributes("maps", branch.mapsUrl)}>${t("Get directions")}</a><a class="branch-whatsapp" ${linkAttributes("whatsapp", branch.whatsappUrl)}>${t("WhatsApp")} ↗</a></div></article>`,
+      )
+      .join("");
   }
-
-  function money(value) {
-    const formatted = value.toLocaleString(currentLanguage === "ar" ? "ar-EG" : "en-EG");
-    return currentLanguage === "ar" ? `${formatted} ج.م` : `EGP ${formatted}`;
+  function renderGallery() {
+    $("#galleryGrid").innerHTML = content.galleryItems
+      .map(
+        (item, index) =>
+          `<button class="gallery-item ${escape(item.layout)}" data-gallery="${index}" type="button" aria-label="${escape(text(item.caption))}"><img src="${escape(item.image)}" alt="${escape(text(item.alt))}" width="900" height="600" loading="lazy"><span>${escape(text(item.caption))}</span><i aria-hidden="true">↗</i></button>`,
+      )
+      .join("");
   }
-
-  function setMobileMenu(open) {
-    menuToggle.classList.toggle("open", open);
-    menuToggle.setAttribute("aria-expanded", String(open));
-    menuToggle.setAttribute("aria-label", open ? (currentLanguage === "ar" ? "اقفل القائمة" : "Close navigation") : (currentLanguage === "ar" ? "افتح القائمة" : "Open navigation"));
-    mobileMenu.classList.toggle("open", open);
-    mobileMenu.setAttribute("aria-hidden", String(!open));
+  function renderReviews() {
+    $("#reviewsGrid").innerHTML = content.reviews
+      .map(
+        (review) =>
+          `<article class="review-card"><div class="stars" aria-label="${review.stars} ${language === "ar" ? "نجوم من ٥" : "out of 5 stars"}">${"★".repeat(review.stars)}${"☆".repeat(5 - review.stars)}</div><blockquote>${language === "ar" ? "«" : "“"}${escape(text(review.quote))}${language === "ar" ? "»" : "”"}</blockquote><footer><span class="avatar" aria-hidden="true">${escape(review.initials)}</span><div><strong>${escape(text(review.name))}</strong><small>${escape(text(review.role))}</small></div></footer></article>`,
+      )
+      .join("");
   }
-
-  function applyLanguage(language, persist = true) {
-    currentLanguage = language;
-    document.documentElement.lang = language;
-    document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
-    document.body.classList.toggle("language-ar", language === "ar");
-    textRecords.forEach(({ node, english, before, after }) => { if (node.isConnected) node.nodeValue = `${before}${translated(english)}${after}`; });
-    attributeRecords.forEach(({ element, attribute, english }) => { if (element.isConnected) element.setAttribute(attribute, translatedAttribute(english)); });
-    languageToggle.innerHTML = `<span aria-hidden="true">${ui[language].switchText}</span>`;
-    languageToggle.setAttribute("aria-label", ui[language].switchLabel);
-    document.title = language === "ar" ? "Ember & Oak — مطعم المشويات على الفحم" : "Ember & Oak — Premium Fire Kitchen";
-    $('meta[name="description"]').setAttribute("content", language === "ar" ? "Ember & Oak مطعم مشويات عصري في القاهرة، بطبخ على الفحم وقعدة دافية وأطباق معمولة للمشاركة." : "Ember & Oak is a premium charcoal-kitchen restaurant in Cairo, serving fire-led dishes in a warm, contemporary setting.");
-    setMobileMenu(false);
-    renderCart();
-    if (checkoutPayment) renderCheckoutSuccess(checkoutPayment);
-    if (persist) { try { localStorage.setItem("ember-language", language); } catch (_) { /* Storage can be unavailable. */ } }
-    document.documentElement.classList.remove("i18n-pending");
+  function renderContact() {
+    const restaurant = content.restaurant;
+    $("#contactCard").innerHTML =
+      [
+        ["Phone", restaurant.phone, "phone", true],
+        ["Email", restaurant.email, "email", true],
+        ["Address", text(restaurant.address), "maps"],
+        ["Opening hours", text(restaurant.hours), null],
+        ["Instagram", restaurant.instagram, "instagram", true],
+      ]
+        .map(([label, value, kind, latin]) => {
+          const tag = kind ? "a" : "div";
+          return `<${tag} class="contact-row" ${kind ? linkAttributes(kind) : ""}><span>${t(label)}</span><strong${latin ? ' class="latin"' : ""}>${escape(value)}</strong>${kind ? '<b aria-hidden="true">↗</b>' : "<b></b>"}</${tag}>`;
+        })
+        .join("") +
+      `<a class="text-link" ${linkAttributes("maps")}>${t("Open in Google Maps")} <span aria-hidden="true">↗</span></a>`;
   }
-
   function renderCart() {
-    const count = $("#bagCount");
-    const total = cart.reduce((sum, item) => sum + item.price, 0);
-    count.textContent = cart.length;
-    $("#cartTotal").textContent = money(total);
-    $("#checkoutOpen").disabled = cart.length === 0;
-    $("#cartItems").innerHTML = cart.length
-      ? cart.map((item, index) => `<div class="cart-item"><div><strong>${translated(item.name)}</strong><br><span>${money(item.price)}</span></div><button type="button" data-remove="${index}" aria-label="${ui[currentLanguage].remove} ${translated(item.name)}">${ui[currentLanguage].remove}</button></div>`).join("")
-      : `<p class="empty-cart">${ui[currentLanguage].emptyCart}</p>`;
-    $$('[data-remove]').forEach((button) => button.addEventListener("click", () => { cart.splice(Number(button.dataset.remove), 1); renderCart(); }));
+    const count = [...cart.values()].reduce((sum, value) => sum + value, 0);
+    $("#bagCount").textContent = count;
+    $("#cartOpen").setAttribute("aria-label", `${t("Open order")} (${count})`);
+    $("#cartTotal").textContent = money(total());
+    $("#checkoutOpen").disabled = count === 0;
+    $("#cartItems").innerHTML = count
+      ? [...cart]
+          .map(([index, quantity]) => {
+            const item = content.menuItems[index],
+              name = text(item.name);
+            return `<div class="cart-item">${item.image ? `<img src="${escape(item.image)}" alt="" width="58" height="58">` : ""}<div class="cart-item-copy"><strong>${escape(name)}</strong><small>${money(item.price * quantity)}</small><div class="quantity"><button type="button" data-quantity="${index}" data-change="-1" aria-label="${escape(language === "ar" ? `قلل كمية ${name}` : `Decrease ${name}`)}">−</button><span>${quantity}</span><button type="button" data-quantity="${index}" data-change="1" aria-label="${escape(language === "ar" ? `زود كمية ${name}` : `Increase ${name}`)}">+</button></div></div><button class="remove-item" type="button" data-remove="${index}" aria-label="${escape(`${ui().remove} ${name}`)}">${ui().remove}</button></div>`;
+          })
+          .join("")
+      : `<p class="empty-cart">${ui().emptyCart}</p>`;
   }
-
-  function renderCheckoutForm() {
-    checkoutPayment = null;
-    const isArabic = currentLanguage === "ar";
-    const methods = content.paymentMethods || [
-      { id: "Vodafone Cash", name: { en: "Vodafone Cash", ar: "فودافون كاش" }, helper: { en: "Instant wallet transfer", ar: "تحويل فوري بالمحفظة" } },
-      { id: "Cash on delivery", name: { en: "Cash on delivery", ar: "الدفع عند الاستلام" }, helper: { en: "Pay when your order arrives", ar: "ادفع لما الطلب يوصل" } },
-      { id: "PayPal", name: { en: "PayPal", ar: "باي بال" }, helper: { en: "Fast online checkout", ar: "دفع أونلاين بسرعة" } },
-      { id: "Credit card", name: { en: "Credit card", ar: "كارت بنكي" }, helper: { en: "Visa or Mastercard", ar: "فيزا أو ماستركارد" } }
-    ];
-    checkoutContent.innerHTML = `<div class="dialog-header"><div><span class="kicker">${ui[currentLanguage].checkout}</span><h2 id="checkoutTitle">${ui[currentLanguage].choosePayment}</h2></div><button class="close-button dark" id="checkoutClose" type="button" aria-label="${isArabic ? "اقفل الدفع" : "Close checkout"}">×</button></div><p>${ui[currentLanguage].paymentIntro}</p><div class="payment-options">${methods.map((method, index) => `<button class="payment-option${index === 0 ? " active" : ""}" type="button" data-payment="${escapeHTML(method.id)}"><strong>${escapeHTML(method.name[currentLanguage])}</strong><small>${escapeHTML(method.helper[currentLanguage])}</small></button>`).join("")}</div><button class="button button-copper dialog-submit" id="placeOrder" type="button">${ui[currentLanguage].confirmOrder}</button>`;
-    $("#checkoutClose").addEventListener("click", () => closeLayers());
-    $$(".payment-option").forEach((option) => option.addEventListener("click", () => { $$(".payment-option").forEach((item) => item.classList.remove("active")); option.classList.add("active"); }));
-    $("#placeOrder").addEventListener("click", () => renderCheckoutSuccess($(".payment-option.active").dataset.payment));
+  function applyLanguage(next, persist = true) {
+    language = next;
+    document.documentElement.lang = next;
+    document.documentElement.dir = next === "ar" ? "rtl" : "ltr";
+    $$("[data-t]").forEach((node) => {
+      node.textContent = t(node.dataset.t);
+    });
+    $$("[data-copy]").forEach((node) => {
+      node.textContent = text(resolve(node.dataset.copy));
+    });
+    $$("[data-brand]").forEach((node) => {
+      node.textContent = brandName();
+    });
+    $$("[data-alt-copy]").forEach((node) => {
+      node.alt = text(resolve(node.dataset.altCopy));
+    });
+    $$("[data-aria]").forEach((node) => {
+      node.setAttribute(
+        "aria-label",
+        content.translations.attributes[node.dataset.aria] && next === "ar"
+          ? content.translations.attributes[node.dataset.aria]
+          : t(node.dataset.aria),
+      );
+    });
+    $$("[data-link]").forEach((node) => {
+      const kind = node.dataset.link,
+        url = linkFor(kind);
+      node.href = url || "#contact";
+      if (!url || url === "#" || url === "#contact")
+        node.dataset.placeholder = kind;
+      else delete node.dataset.placeholder;
+    });
+    $("#languageToggle").textContent = ui().switchText;
+    $("#languageToggle").setAttribute("aria-label", ui().switchLabel);
+    document.title = text(content.restaurant.pageTitle);
+    $('meta[name="description"]').content = text(
+      content.restaurant.description,
+    );
+    $('meta[property="og:title"]').content = document.title;
+    $('meta[property="og:description"]').content = text(
+      content.restaurant.description,
+    );
+    $('meta[property="og:site_name"]').content = brandName();
+    $('meta[property="og:image"]').content = new URL(
+      content.media.hero,
+      content.restaurant.siteUrl || location.href,
+    ).href;
+    $('meta[name="theme-color"]').content = content.theme.paper;
+    renderMenu();
+    renderBranches();
+    renderGallery();
+    renderReviews();
+    renderContact();
+    renderCart();
+    setMobileMenu(false);
+    if (persist) {
+      try {
+        localStorage.setItem("ember-language", language);
+      } catch (_) {}
+    }
   }
-
-  function renderCheckoutSuccess(payment) {
-    checkoutPayment = payment;
-    const paymentLabel = currentLanguage === "ar" ? paymentNames[payment] : payment;
-    checkoutContent.innerHTML = `<div class="success"><div class="success-mark" aria-hidden="true">✓</div><h3>${ui[currentLanguage].orderReady}</h3><p>${ui[currentLanguage].orderReadyBody(paymentLabel)}</p><button class="button button-copper" type="button" id="orderDone">${ui[currentLanguage].done}</button></div>`;
-    $("#orderDone").addEventListener("click", () => { cart.length = 0; renderCart(); closeLayers(); renderCheckoutForm(); });
+  function setMobileMenu(open) {
+    $("#mobileMenu").hidden = !open;
+    $("#menuToggle").classList.toggle("open", open);
+    $("#menuToggle").setAttribute("aria-expanded", String(open));
+    $("#menuToggle").setAttribute(
+      "aria-label",
+      t(open ? "Close navigation" : "Open navigation"),
+    );
   }
-
   function showToast(message) {
-    window.clearTimeout(toastTimer);
-    toast.textContent = message;
-    toast.classList.add("show");
-    toastTimer = window.setTimeout(() => toast.classList.remove("show"), 2200);
+    clearTimeout(toastTimer);
+    $("#toast").textContent = message;
+    $("#toast").classList.add("show");
+    toastTimer = setTimeout(() => $("#toast").classList.remove("show"), 2600);
   }
-
-  function showOverlay() { overlay.hidden = false; requestAnimationFrame(() => overlay.classList.add("open")); document.body.classList.add("modal-open"); }
-  function hideOverlay() { overlay.classList.remove("open"); window.setTimeout(() => { overlay.hidden = true; }, reduceMotion ? 0 : 300); document.body.classList.remove("modal-open"); }
-  function closeLayers({ restoreFocus = true } = {}) {
-    cartPanel.classList.remove("open"); cartPanel.setAttribute("aria-hidden", "true"); checkoutDialog.classList.remove("open"); checkoutDialog.setAttribute("aria-hidden", "true"); lightbox.classList.remove("open"); lightbox.setAttribute("aria-hidden", "true"); hideOverlay(); if (restoreFocus && lastFocused) lastFocused.focus();
+  function openDialog(dialog) {
+    const opener = document.activeElement;
+    returnFocus = opener.closest("dialog") ? $("#cartOpen") : opener;
+    $$("dialog[open]").forEach((other) => other.close());
+    dialog.showModal();
+    document.body.classList.add("modal-open");
   }
-  function openCart() { lastFocused = document.activeElement; showOverlay(); cartPanel.classList.add("open"); cartPanel.setAttribute("aria-hidden", "false"); $("#cartClose").focus(); }
-  function updateScroll() { const max = document.documentElement.scrollHeight - window.innerHeight; header.classList.toggle("scrolled", window.scrollY > 24); progress.style.transform = `scaleX(${max > 0 ? window.scrollY / max : 0})`; }
-
-  $("#year").textContent = new Date().getFullYear();
-  captureTranslations();
-  let storedLanguage = content.defaultLanguage === "en" ? "en" : "ar";
-  try { storedLanguage = localStorage.getItem("ember-language") || storedLanguage; } catch (_) { /* Configured language remains the default. */ }
+  function renderCheckout() {
+    $("#checkoutContent").innerHTML =
+      `<div class="dialog-header"><div><p class="eyebrow">${ui().checkout}</p><h2 id="checkoutTitle">${ui().choosePayment}</h2></div><button class="close-button" type="button" data-close aria-label="${t("Close checkout")}">×</button></div><p>${ui().paymentIntro}</p><div class="payment-options">${content.paymentMethods.map((method, index) => `<button class="payment-option${index === 0 ? " active" : ""}" type="button" data-payment="${index}" aria-pressed="${index === 0}"><strong>${escape(text(method.name))}</strong><small>${escape(text(method.helper))}</small></button>`).join("")}</div><div class="dialog-total"><span>${t("Order total")}</span><strong>${money(total())}</strong></div><button class="button button-accent dialog-submit" id="placeOrder" type="button">${ui().confirmOrder}</button>`;
+  }
+  function completeOrder() {
+    const method =
+      content.paymentMethods[
+        Number($(".payment-option.active").dataset.payment)
+      ];
+    $("#checkoutContent").innerHTML =
+      `<div class="success"><div class="success-mark" aria-hidden="true">✓</div><h2 id="checkoutTitle">${ui().orderReady}</h2><p>${ui().orderReadyBody(escape(text(method.name)))}</p><button class="button button-accent" type="button" id="orderDone">${ui().done}</button></div>`;
+    $("#orderDone").focus();
+  }
+  document.addEventListener("click", (event) => {
+    const add = event.target.closest("[data-add]");
+    if (add) {
+      const index = Number(add.dataset.add);
+      cart.set(index, (cart.get(index) || 0) + 1);
+      renderCart();
+      showToast(ui().added(text(content.menuItems[index].name)));
+      add.classList.add("added");
+      setTimeout(() => add.classList.remove("added"), 750);
+    }
+    const filter = event.target.closest("[data-filter]");
+    if (filter) {
+      category = filter.dataset.filter;
+      filterMenu(true);
+    }
+    const quantity = event.target.closest("[data-quantity]");
+    if (quantity) {
+      const index = Number(quantity.dataset.quantity),
+        next = cart.get(index) + Number(quantity.dataset.change);
+      if (next > 0) cart.set(index, next);
+      else cart.delete(index);
+      renderCart();
+      const updated = $(
+        `[data-quantity="${index}"][data-change="${quantity.dataset.change}"]`,
+      );
+      (updated || $("#cartTitle")).focus();
+    }
+    const remove = event.target.closest("[data-remove]");
+    if (remove) {
+      cart.delete(Number(remove.dataset.remove));
+      renderCart();
+      $("#checkoutOpen").disabled
+        ? $("#cart").querySelector("[data-close]").focus()
+        : $("#checkoutOpen").focus();
+    }
+    const gallery = event.target.closest("[data-gallery]");
+    if (gallery) {
+      galleryIndex = Number(gallery.dataset.gallery);
+      const item = content.galleryItems[galleryIndex];
+      $("#lightboxImage").src = item.image;
+      $("#lightboxImage").alt = text(item.alt);
+      $("#lightboxCaption").textContent = text(item.caption);
+      openDialog($("#lightbox"));
+    }
+    const close = event.target.closest("[data-close]");
+    if (close) close.closest("dialog").close();
+    const placeholder = event.target.closest("[data-placeholder]");
+    if (placeholder) {
+      event.preventDefault();
+      showToast(
+        ui().actions[placeholder.dataset.placeholder] || ui().actions.whatsapp,
+      );
+    }
+    const payment = event.target.closest("[data-payment]");
+    if (payment)
+      $$("[data-payment]").forEach((button) => {
+        button.classList.toggle("active", button === payment);
+        button.setAttribute("aria-pressed", String(button === payment));
+      });
+    if (event.target.closest("#placeOrder")) completeOrder();
+    if (event.target.closest("#orderDone")) {
+      cart.clear();
+      renderCart();
+      $("#checkoutDialog").close();
+    }
+  });
+  $("#cartOpen").addEventListener("click", () => openDialog($("#cart")));
+  $("#checkoutOpen").addEventListener("click", () => {
+    renderCheckout();
+    openDialog($("#checkoutDialog"));
+  });
+  $$("dialog").forEach((dialog) => {
+    dialog.addEventListener("close", () => {
+      if (!$("dialog[open]")) {
+        document.body.classList.remove("modal-open");
+        returnFocus?.focus();
+      }
+    });
+    dialog.addEventListener("click", (event) => {
+      if (event.target !== dialog) return;
+      const bounds = dialog.getBoundingClientRect();
+      if (
+        event.clientX < bounds.left ||
+        event.clientX > bounds.right ||
+        event.clientY < bounds.top ||
+        event.clientY > bounds.bottom
+      )
+        dialog.close();
+    });
+  });
+  $("#menuToggle").addEventListener("click", () =>
+    setMobileMenu($("#mobileMenu").hidden),
+  );
+  $$("#mobileMenu a").forEach((link) =>
+    link.addEventListener("click", () => setMobileMenu(false)),
+  );
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !$("#mobileMenu").hidden) {
+      setMobileMenu(false);
+      $("#menuToggle").focus();
+    }
+  });
+  $("#languageToggle").addEventListener("click", () =>
+    applyLanguage(language === "ar" ? "en" : "ar"),
+  );
+  let storedLanguage = language;
+  try {
+    storedLanguage = localStorage.getItem("ember-language") || language;
+  } catch (_) {}
   applyLanguage(storedLanguage === "en" ? "en" : "ar", false);
-  languageToggle.addEventListener("click", () => applyLanguage(currentLanguage === "ar" ? "en" : "ar"));
-
-  window.addEventListener("scroll", updateScroll, { passive: true });
-  updateScroll();
+  $("#year").textContent = new Date().getFullYear();
   if (!reduceMotion && "IntersectionObserver" in window) {
-    const revealObserver = new IntersectionObserver((entries) => { entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add("in-view"); revealObserver.unobserve(entry.target); } }); }, { threshold: 0.12, rootMargin: "0px 0px -30px" });
-    $$(".reveal").forEach((element) => revealObserver.observe(element));
-  } else { $$(".reveal").forEach((element) => element.classList.add("in-view")); }
-  const sectionObserver = new IntersectionObserver((entries) => { entries.forEach((entry) => { if (!entry.isIntersecting) return; $$(".desktop-nav a").forEach((link) => link.classList.toggle("active", link.getAttribute("href") === `#${entry.target.id}`)); }); }, { rootMargin: "-35% 0px -55%" });
-  $$("main section[id]").forEach((section) => sectionObserver.observe(section));
-
-  menuToggle.addEventListener("click", () => setMobileMenu(!mobileMenu.classList.contains("open")));
-  $$("a", mobileMenu).forEach((link) => link.addEventListener("click", () => setMobileMenu(false)));
-  $$(".filter").forEach((button) => button.addEventListener("click", () => {
-    const category = button.dataset.filter;
-    $$(".filter").forEach((filter) => { const active = filter === button; filter.classList.toggle("active", active); filter.setAttribute("aria-pressed", String(active)); });
-    $$(".menu-card").forEach((card) => { const visible = category === "all" || card.dataset.category === category; card.classList.toggle("hidden", !visible); if (visible && !reduceMotion) { card.classList.remove("filter-pop"); void card.offsetWidth; card.classList.add("filter-pop"); } });
-  }));
-  $$(".add-item").forEach((button) => button.addEventListener("click", () => {
-    cart.push({ name: button.dataset.name, price: Number(button.dataset.price) });
-    if (!reduceMotion) { button.classList.remove("added"); void button.offsetWidth; button.classList.add("added"); }
-    renderCart(); showToast(ui[currentLanguage].added(translated(button.dataset.name)));
-  }));
-
-  $("#cartOpen").addEventListener("click", openCart);
-  $("#cartClose").addEventListener("click", () => closeLayers());
-  overlay.addEventListener("click", () => closeLayers());
-  $("#checkoutOpen").addEventListener("click", () => { renderCheckoutForm(); cartPanel.classList.remove("open"); cartPanel.setAttribute("aria-hidden", "true"); checkoutDialog.classList.add("open"); checkoutDialog.setAttribute("aria-hidden", "false"); $("#checkoutClose").focus(); });
-  $$(".gallery-item").forEach((item) => item.addEventListener("click", () => { lastFocused = item; $("#lightboxImage").src = item.dataset.image; $("#lightboxImage").alt = translatedAttribute(item.dataset.alt); showOverlay(); lightbox.classList.add("open"); lightbox.setAttribute("aria-hidden", "false"); $("#lightboxClose").focus(); }));
-  $("#lightboxClose").addEventListener("click", () => closeLayers());
-  $$('[data-placeholder-action]').forEach((link) => link.addEventListener("click", (event) => { event.preventDefault(); showToast(ui[currentLanguage].actions[link.dataset.placeholderAction]); }));
-
-  function trapFocus(event) {
-    if (event.key !== "Tab") return;
-    const activeLayer = [checkoutDialog, lightbox, cartPanel].find((layer) => layer.classList.contains("open"));
-    if (!activeLayer) return;
-    const focusable = $$('button:not([disabled]), a[href], input, textarea, select, [tabindex]:not([tabindex="-1"])', activeLayer);
-    if (!focusable.length) return;
-    const first = focusable[0]; const last = focusable[focusable.length - 1];
-    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
-    if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    document.documentElement.classList.add("motion-ready");
+    const reveal = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+            reveal.unobserve(entry.target);
+          }
+        }),
+      { threshold: 0.08 },
+    );
+    $$(".reveal").forEach((node) => reveal.observe(node));
   }
-  document.addEventListener("keydown", (event) => { if (event.key === "Escape") { if (mobileMenu.classList.contains("open")) setMobileMenu(false); if ([cartPanel, checkoutDialog, lightbox].some((layer) => layer.classList.contains("open"))) closeLayers(); } trapFocus(event); });
+  if ("IntersectionObserver" in window) {
+    const sections = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((entry) => {
+          if (entry.isIntersecting)
+            $$(".desktop-nav a").forEach((link) =>
+              link.classList.toggle(
+                "active",
+                link.hash === `#${entry.target.id}`,
+              ),
+            );
+        }),
+      { rootMargin: "-20% 0px -60% 0px" },
+    );
+    $$("main section[id]").forEach((section) => sections.observe(section));
+  }
+  let scrollPending = false;
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (scrollPending) return;
+      scrollPending = true;
+      requestAnimationFrame(() => {
+        $("#siteHeader").classList.toggle("scrolled", scrollY > 10);
+        scrollPending = false;
+      });
+    },
+    { passive: true },
+  );
 })();
